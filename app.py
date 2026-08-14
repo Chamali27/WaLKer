@@ -597,7 +597,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   gap: 3px !important;
   color: #c3d4cb !important;
   font-family: 'Cambria', serif !important;
-  font-size: 0.85rem !important;
+  font-size: 0.65rem !important;
   font-weight: 600 !important;
   box-shadow: none !important;
   transform: none !important;
@@ -725,7 +725,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   background: linear-gradient(135deg,#0c3446,#19352a) !important;
   border: 2px solid rgba(255,255,255,0.32) !important;
   border-radius: 12px !important;
-  height: 92px !important;
+  height: 66px !important;
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
