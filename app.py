@@ -145,77 +145,66 @@ st.markdown("""
   --muted:#759486;
 } 
 /* ============================================================
-   FLUID SCALING PATCH
-   Replaces fixed px/rem sizing with clamp(min, preferred-vw, max)
-   so the whole app scales smoothly with viewport width in every
-   browser — no zoom/transform hack required, and no hard cliff
-   at a single breakpoint. Values are tuned so full-width desktop
-   already looks like the tighter "80%" screenshots, and it keeps
-   shrinking gracefully as the window narrows.
+   FLUID SCALING PATCH (v2 — tightened ~10% to match target look)
    ============================================================ */
 
-/* Any st.columns row (month picker, budget/arrival/interest cards) —
-   stop squeezing button text into single-letter columns; shrink
-   font instead and let rows wrap once columns truly can't fit. */
 [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
 [data-testid="column"] { min-width: 54px !important; }
 
 /* Page padding */
-.block-container { padding: 0 clamp(0.7rem, 1.3vw, 1.3rem) clamp(1rem, 1.8vw, 1.6rem) !important; }
+.block-container { padding: 0 clamp(0.7rem, 1.3vw, 1.2rem) clamp(1rem, 1.8vw, 1.4rem) !important; }
 
 /* HERO */
-.hero-wrap { height: clamp(130px, 9.2vw, 176px) !important; }
-.hero-content { padding: 0 clamp(16px, 2.5vw, 38px) !important; gap: clamp(10px, 1.2vw, 16px) !important; }
-.hero-badge { height: clamp(28px, 2.7vw, 42px) !important; }
-.hero-text h1 { font-size: clamp(1.5rem, 2.4vw, 2.5rem) !important; }
-.hero-logo { height: clamp(40px, 4.6vw, 70px) !important; }
-.hero-text p { font-size: clamp(0.42rem, 0.55vw, 0.5rem) !important; margin: clamp(4px,0.6vw,8px) 0 0 !important; }
-.hero-stat { padding: clamp(6px,0.8vw,8px) clamp(10px,1.4vw,14px) !important; }
-.hero-stat-num { font-size: clamp(1.1rem, 1.3vw, 1.3rem) !important; }
-.hero-stat-lbl { font-size: clamp(0.42rem, 0.5vw, 0.48rem) !important; }
+.hero-wrap { height: clamp(120px, 8.4vw, 158px) !important; }
+.hero-content { padding: 0 clamp(14px, 2.2vw, 34px) !important; gap: clamp(9px, 1.1vw, 14px) !important; }
+.hero-badge { height: clamp(26px, 2.4vw, 38px) !important; }
+.hero-text h1 { font-size: clamp(1.35rem, 2.15vw, 2.25rem) !important; }
+.hero-logo { height: clamp(36px, 4.1vw, 63px) !important; }
+.hero-text p { font-size: clamp(0.4rem, 0.5vw, 0.46rem) !important; margin: clamp(4px,0.55vw,7px) 0 0 !important; }
+.hero-stat { padding: clamp(5px,0.7vw,7px) clamp(9px,1.25vw,12px) !important; }
+.hero-stat-num { font-size: clamp(1rem, 1.15vw, 1.15rem) !important; }
+.hero-stat-lbl { font-size: clamp(0.4rem, 0.45vw, 0.43rem) !important; }
 
 /* SECTION HEADINGS */
-.sec-title { font-size: clamp(1.15rem, 1.6vw, 1.4rem) !important; }
-.sec-sub { font-size: clamp(0.5rem, 0.55vw, 0.55rem) !important; }
-.panel-label { font-size: clamp(0.9rem, 1.2vw, 1.05rem) !important; }
-.panel-sublabel { font-size: clamp(0.6rem, 0.7vw, 0.68rem) !important; }
-.panel-caption { font-size: clamp(0.5rem, 0.55vw, 0.55rem) !important; }
+.sec-title { font-size: clamp(1.05rem, 1.45vw, 1.25rem) !important; }
+.sec-sub { font-size: clamp(0.46rem, 0.5vw, 0.5rem) !important; }
+.panel-label { font-size: clamp(0.82rem, 1.08vw, 0.94rem) !important; }
+.panel-sublabel { font-size: clamp(0.55rem, 0.63vw, 0.61rem) !important; }
+.panel-caption { font-size: clamp(0.46rem, 0.5vw, 0.5rem) !important; }
 
 /* BUDGET CARD BUTTONS */
 .stButton[class*="st-key-budget_"] button {
-  height: clamp(58px, 7vw, 74px) !important;
-  font-size: clamp(0.65rem, 0.9vw, 0.78rem) !important;
+  height: clamp(54px, 6.3vw, 66px) !important;
+  font-size: clamp(0.6rem, 0.82vw, 0.7rem) !important;
 }
-.stButton[class*="st-key-budget_"] button p { font-size: clamp(0.65rem, 0.9vw, 0.78rem) !important; }
+.stButton[class*="st-key-budget_"] button p { font-size: clamp(0.6rem, 0.82vw, 0.7rem) !important; }
 
 /* ARRIVAL CARD BUTTONS */
 .stButton[class*="st-key-arr_"] button {
-  height: clamp(54px, 6.5vw, 70px) !important;
-  font-size: clamp(0.58rem, 0.8vw, 0.7rem) !important;
+  height: clamp(50px, 5.9vw, 63px) !important;
+  font-size: clamp(0.53rem, 0.72vw, 0.63rem) !important;
 }
-.stButton[class*="st-key-arr_"] button p { font-size: clamp(0.58rem, 0.8vw, 0.7rem) !important; }
+.stButton[class*="st-key-arr_"] button p { font-size: clamp(0.53rem, 0.72vw, 0.63rem) !important; }
 
-/* INTEREST CARD IMAGES — inline height:200px in the python f-string is
-   beaten by this !important rule, no python edit needed. */
+/* INTEREST CARD IMAGES */
 .st-key-form_right_panel img {
-  height: clamp(110px, 13vw, 175px) !important;
+  height: clamp(100px, 11.7vw, 158px) !important;
   width: 100% !important;
   object-fit: cover !important;
 }
 
 /* GENERATE BUTTON */
 .st-key-btn_generate[class] button {
-  height: clamp(50px, 5.2vw, 64px) !important;
-  font-size: clamp(1rem, 1.5vw, 1.3rem) !important;
+  height: clamp(45px, 4.7vw, 58px) !important;
+  font-size: clamp(0.9rem, 1.35vw, 1.17rem) !important;
 }
-.st-key-btn_generate[class] button p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; }
+.st-key-btn_generate[class] button p { font-size: clamp(0.9rem, 1.35vw, 1.17rem) !important; }
 
 /* CHIPS */
-.chip { font-size: clamp(0.52rem, 0.6vw, 0.6rem) !important; padding: clamp(2px,0.3vw,3px) clamp(8px,1vw,10px) !important; }
+.chip { font-size: clamp(0.47rem, 0.54vw, 0.54rem) !important; padding: clamp(2px,0.27vw,3px) clamp(7px,0.9vw,9px) !important; }
 
 /* MONTH PICKER BUTTONS */
-.stButton > button { font-size: clamp(0.55rem, 1.6vw, 0.9rem) !important; white-space: nowrap !important; }
-html,body,[class*="css"]{ font-family:Cambria,Georgia,"Times New Roman",serif!important; background:var(--bg)!important; color:var(--text)!important; }
+.stButton > button { font-size: clamp(0.5rem, 1.44vw, 0.81rem) !important; white-space: nowrap !important; }
 /* Force every piece of real text in the app onto the same font — scoped to
    text-bearing tags rather than a blanket "*" selector, since Streamlit
    renders some of its own UI glyphs (expander chevrons, checkboxes, menu
