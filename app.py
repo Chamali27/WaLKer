@@ -736,7 +736,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   line-height: 1.45 !important;
   color: #c3d4cb !important;
   font-family: 'Cambria', serif !important;
-  font-size: 0.95rem !important;
+  font-size: 0.85rem !important;
   font-weight: 600 !important;
   box-shadow: none !important;
   transform: none !important;
@@ -748,7 +748,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 }
 .stButton[class*="st-key-budget_"] button p {
   font-family: 'Cambria', serif !important;
-  font-size: 0.95rem !important;
+  font-size: 0.85rem !important;
   line-height: 1.45 !important;
 }
 /* GENERATE ITINERARY BUTTON — big, same left-side background gradient as
@@ -1336,7 +1336,7 @@ with form_left, st.container(key="form_left_panel"):
             }}
             {sel} button p {{
                 font-family: 'Cambria', serif !important;
-                font-size: 0.95rem !important;
+                font-size: 0.85rem !important;
                 line-height: 1.45 !important;
             }}
             {"" if is_active else f'''{sel} button:hover {{
