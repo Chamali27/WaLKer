@@ -1,0 +1,73 @@
+# 🇱🇰 TravelLK – AI Travel Planner for Sri Lanka
+
+An AI-powered travel planning agent that creates personalized Sri Lanka itineraries based on your interests, budget, and trip duration. Built with Ollama (llama3.2), Streamlit, and SQLite.
+
+---
+
+## 🚀 Features
+
+- 🤖 **AI-powered planning** – Generates detailed day-by-day itineraries
+- 🎯 **Personalized** – Based on your interests, budget & trip length
+- 💬 **Follow-up chat** – Ask questions about your itinerary
+- 🧠 **Memory** – Saves all past trips to SQLite
+- 🗺️ **Popular destinations** – Covers all major Sri Lanka attractions
+- 🌴 **Local tips** – Food, transport, hidden gems included
+
+---
+
+## 🗂️ Project Structure
+
+```
+travellk/
+├── app.py        # Streamlit UI
+├── agent.py      # AI planning agent (Ollama)
+├── memory.py     # SQLite trip memory
+└── README.md
+```
+
+---
+
+## ⚙️ Setup
+
+### 1. Install Ollama & pull model
+```bash
+ollama pull llama3.2
+```
+
+### 2. Install dependencies
+```bash
+pip install streamlit ollama
+```
+
+### 3. Run the app
+```bash
+streamlit run app.py
+```
+
+---
+
+## 🧠 How It Works
+
+1. User selects trip duration, budget, and interests
+2. AI agent (llama3.2) generates a full day-by-day itinerary
+3. User can ask follow-up questions in the chat
+4. Every trip is saved to SQLite memory for analytics
+
+---
+
+## 📦 Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| Streamlit | Web UI |
+| Ollama (llama3.2) | Local LLM for planning |
+| SQLite | Trip memory storage |
+
+---
+
+## 📋 Assignment Info
+
+- **University:** General Sir John Kotelawala Defence University
+- **Degree:** BSc in Applied Data Science Communication
+- **Module:** Data Science Applications and AI [LB3114]
+- **Intake:** 41 | 3rd Year 1st Semester
