@@ -444,6 +444,33 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"]{
     color:#e8f0ec!important;
     border-radius:9px!important;
 }
+div[data-baseweb="popover"] li:hover,
+div[data-baseweb="popover"] li[aria-selected="true"] {
+    background:linear-gradient(135deg,#123a4d,#1f4432)!important;
+    color:#ffffff!important;
+}
+
+ul[role="listbox"],
+div[role="listbox"] {
+    background: linear-gradient(135deg,#0c3446,#19352a) !important;
+    border: 1px solid rgba(61,186,126,0.35) !important;
+}
+ul[role="listbox"] li,
+li[role="option"] {
+    background: linear-gradient(135deg,#0c3446,#19352a) !important;
+    color: #e8f0ec !important;
+}
+ul[role="listbox"] li *,
+li[role="option"] * {
+    color: #e8f0ec !important;
+}
+li[role="option"]:hover,
+li[aria-selected="true"][role="option"] {
+    background: linear-gradient(135deg,#123a4d,#1f4432) !important;
+    color: #ffffff !important;
+}
+
+/* PAST TRIPS LIST — real buttons in a bounded, normally-scrolling
 div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
 div[data-testid="stSelectbox"] svg {
     color:#e8f0ec!important;
