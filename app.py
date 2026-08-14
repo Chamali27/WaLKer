@@ -812,6 +812,37 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
     border-color: #3dba7e !important;
 }
 
+/* DROPDOWN TEXT FIX — final, highest-priority pass. Placed last in the
+   stylesheet so it wins the cascade over any earlier rule (including other
+   !important rules of equal specificity) that failed to darken the open
+   dropdown list. Targets every element inside the popover/listbox/option
+   by attribute only, with no dependency on nesting under stSelectbox,
+   since the popover renders in its own layer, not inside the select box. */
+div[data-baseweb="popover"],
+div[data-baseweb="menu"],
+ul[role="listbox"] {
+    background: #0c3446 !important;
+    background-image: linear-gradient(135deg,#0c3446,#19352a) !important;
+}
+div[data-baseweb="popover"] *,
+div[data-baseweb="menu"] *,
+ul[role="listbox"] *,
+li[role="option"] {
+    color: #f4faf7 !important;
+    background: transparent !important;
+    opacity: 1 !important;
+}
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {
+    background: #1f4432 !important;
+    color: #ffffff !important;
+}
+/* Closed-box selected value + placeholder text */
+div[data-testid="stSelectbox"] div[data-baseweb="select"] div,
+div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
+    color: #f4faf7 !important;
+}
+
 
 </style>
 """, unsafe_allow_html=True)
