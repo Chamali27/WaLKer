@@ -2272,7 +2272,7 @@ else:
                 border: 1.5px solid rgba(61,186,126,0.4) !important;
                 border-radius: 10px !important;
                 color: #e8f0ec !important;
-                font-size: 0.86rem !important;
+                font-size: 0.85rem !important;
                 padding: 10px 14px !important;
             }
             div[data-testid="stTextInput"] > div > div > input:focus {
