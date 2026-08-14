@@ -589,7 +589,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   border-radius: 12px !important;
   padding: 10px 4px 8px !important;
   width: 100% !important;
-  height: 86px !important;
+  height: 60px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
