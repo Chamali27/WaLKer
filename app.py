@@ -175,9 +175,9 @@ st.markdown("""
 /* BUDGET CARD BUTTONS */
 .stButton[class*="st-key-budget_"] button {
   height: clamp(54px, 6.3vw, 66px) !important;
-  font-size: clamp(0.6rem, 0.82vw, 0.7rem) !important;
+  font-size: clamp(0.6rem, 0.72vw, 0.7rem) !important;
 }
-.stButton[class*="st-key-budget_"] button p { font-size: clamp(0.6rem, 0.82vw, 0.7rem) !important; }
+.stButton[class*="st-key-budget_"] button p { font-size: clamp(0.6rem, 0.72vw, 0.7rem) !important; }
 
 /* ARRIVAL CARD BUTTONS */
 .stButton[class*="st-key-arr_"] button {
