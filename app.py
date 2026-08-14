@@ -1328,7 +1328,7 @@ with form_left, st.container(key="form_left_panel"):
                 line-height: 1.45 !important;
                 color: {color} !important;
                 font-family: 'Cambria', serif !important;
-                font-size: 0.95rem !important;
+                font-size: 0.85rem !important;
                 font-weight: {weight} !important;
                 box-shadow: {shadow} !important;
                 transform: none !important;
@@ -1617,7 +1617,7 @@ with form_right, st.container(key="form_right_panel"):
                     }}
                     {int_sel} button p {{
                         font-family: 'Cambria', serif !important;
-                        font-size: 0.95rem !important;
+                        font-size: 0.85rem !important;
                     }}
                     .st-key-intcard_{safe_key} {{
                         border-radius: 10px !important;
