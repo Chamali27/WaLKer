@@ -880,9 +880,9 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
     color: #f4faf7 !important;
 }
 div[data-testid="stSelectbox"] svg,
-div[data-testid="stSelectbox"] svg path {
-    fill: #f4faf7 !important;
-    stroke: #f4faf7 !important;
+div[data-testid="stSelectbox"] svg {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
 }
 
 </style>
