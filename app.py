@@ -869,7 +869,21 @@ div[data-testid="stSelectbox"] div[data-baseweb="select"] div,
 div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
     color: #f4faf7 !important;
 }
-
+div[data-testid="stSelectbox"],
+div[data-testid="stSelectbox"] *,
+div[data-testid="stSelectbox"] div[data-baseweb="select"],
+div[data-testid="stSelectbox"] div[data-baseweb="select"] * {
+    opacity: 1 !important;
+}
+div[data-testid="stSelectbox"] div[data-baseweb="select"] div,
+div[data-testid="stSelectbox"] div[data-baseweb="select"] span {
+    color: #f4faf7 !important;
+}
+div[data-testid="stSelectbox"] svg,
+div[data-testid="stSelectbox"] svg path {
+    fill: #f4faf7 !important;
+    stroke: #f4faf7 !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
