@@ -23,9 +23,6 @@ from memory import (
     save_trip, update_trip, get_recent_trips, get_total_trips,
     get_smart_memory_context, get_destination_frequency,
 )
-from agent import groq_debug
-st.write(groq_debug())
-
 
 # PAGE CONFIG
 st.set_page_config(
