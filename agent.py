@@ -141,6 +141,7 @@ def _call_llm(
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt},
                     ],
+                    max_tokens=4000,
                 )
                 return clean_text(response.choices[0].message.content), None
 
@@ -192,6 +193,7 @@ def _stream_llm(system_prompt: str, user_prompt: str, model: str = LLM_MODEL):
                 {"role": "user", "content": user_prompt},
             ],
             stream=True,
+            max_tokens=4000,
         )
         for chunk in stream:
             delta = chunk.choices[0].delta.content
