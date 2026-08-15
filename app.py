@@ -260,7 +260,13 @@ span:not([class*="material"]):not([data-testid="stIconMaterial"]) {
 .stApp{ background:#ffffff!important; }
 #MainMenu,footer{ visibility:hidden; }
 header{ visibility:visible!important; background:transparent!important; }
-.block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; }
+/* The header bar above still reserves its full default height (~3.75rem)
+   even though it's transparent — that's the plain white strip sitting
+   above the hero banner. Shrinking the header itself, plus zeroing the
+   top padding Streamlit adds to compensate for it, closes that gap. */
+header[data-testid="stHeader"]{ height:2.2rem!important; min-height:2.2rem!important; }
+[data-testid="stAppViewContainer"] > .main{ padding-top:0!important; }
+.block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; padding-top:0!important; }
 
 /* HERO */
 .hero-wrap{ width:100%; height:280px; position:relative; overflow:hidden; border-radius:0 0 24px 24px; margin-bottom:20px; }
