@@ -1326,16 +1326,18 @@ div[data-testid="stAlert"] *,
    sit directly on the white page with no keyed style of their own, so
    they fell back to the transparent-background / light-text button
    reset (meant for buttons on dark parents) and were invisible. */
-.st-key-btn_clr button,
-.st-key-btn_demo_fallback button {
+.st-key-btn_clr.st-key-btn_clr button,
+.st-key-btn_demo_fallback.st-key-btn_demo_fallback button {
   background: linear-gradient(135deg,#0c3446,#19352a) !important;
   border: 1.5px solid rgba(61,186,126,0.4) !important;
   color: #e8f0ec !important;
   border-radius: 10px !important;
   width: auto !important;
+  font-size: 0.86rem !important;
+  padding: 10px 20px !important;
 }
-.st-key-btn_clr button:hover,
-.st-key-btn_demo_fallback button:hover {
+.st-key-btn_clr.st-key-btn_clr button:hover,
+.st-key-btn_demo_fallback.st-key-btn_demo_fallback button:hover {
   background: linear-gradient(135deg,#123a4d,#1f4432) !important;
   border-color: #3dba7e !important;
 }
@@ -2301,7 +2303,9 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
         # seconds followed by a wall of text all at once. st.write_stream
         # both renders the chunks and returns the concatenated full text.
         st.markdown(
-            '<div style="color:#0c3446 !important;font-weight:600;font-size:1rem;">'
+            '<div style="background:#eef6f1;border:1px solid rgba(61,186,126,0.3);'
+            'border-left:3px solid #3dba7e;border-radius:9px;padding:10px 14px;'
+            'color:#0c3446 !important;font-weight:600;font-size:1rem;margin-bottom:8px;">'
             '🌴 Planning your perfect Sri Lanka trip...</div>',
             unsafe_allow_html=True,
         )
@@ -2352,7 +2356,10 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
 # Loads a pre-written sample itinerary with zero network calls.
 if st.session_state.get("show_demo_fallback"):
     st.markdown(
-        '<div style="color:#5a6b63 !important;font-size:0.82rem;">AI service unavailable right now — '
+        '<div style="background:#f4ede0;border:1px solid rgba(12,52,70,0.18);'
+        'border-left:3px solid #c9a03e;border-radius:9px;padding:10px 14px;'
+        'color:#5a4520 !important;font-size:0.82rem;margin-bottom:8px;">'
+        'AI service unavailable right now — '
         'you can load a sample itinerary to keep the demo moving.</div>',
         unsafe_allow_html=True,
     )
