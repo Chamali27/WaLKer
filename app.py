@@ -307,14 +307,6 @@ header[data-testid="stHeader"]{
 /* SIDEBAR */
 [data-testid="stSidebar"]{ background:linear-gradient(180deg,#0a2732 0%,#0c2b28 45%,#0e2119 100%)!important; border-right:1px solid rgba(255,255,255,0.08)!important; }
 [data-testid="stSidebar"] .block-container{ padding:1.2rem 1rem 2rem!important; }
-[data-testid="collapsedControl"]{ display:flex!important; visibility:visible!important; opacity:1!important;
-  background:#1a3528!important; border:1px solid rgba(61,186,126,0.3)!important; border-left:none!important;
-  border-radius:0 8px 8px 0!important; position:fixed!important; top:50%!important; left:0!important;
-  z-index:9999!important; width:24px!important; height:48px!important; cursor:pointer!important; }
-[data-testid="collapsedControl"] svg {
-    fill: #3dba7e !important;
-    stroke: #3dba7e !important;
-}
 /* RESPONSIVE — phone + tablet. Streamlit already stacks st.columns
    vertically below its own ~640px breakpoint, so the budget / arrival /
    interest card grids reflow to one-per-row on their own; what's left is
@@ -918,51 +910,72 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   color:#0c3446 !important;
   border:1px solid rgba(12,52,70,0.3) !important;
 }
-/* SIDEBAR COLLAPSE ARROW */
-[data-testid="collapsedControl"] {
+/* SIDEBAR COLLAPSE / EXPAND ARROW — single consolidated block.
+   Previously this was split across two separate rule sets (one near the
+   top of the stylesheet, one here) with different z-index/width/height
+   values fighting each other via !important + source order, and neither
+   one pinned the actual inner <button> or icon in a :hover/:focus state
+   — so Streamlit's own default button styles could still win at the
+   exact moment the cursor landed on it, making the arrow disappear on
+   hover even though it looked fine at rest. This version explicitly
+   pins the outer div, the inner button, and the icon/svg/span together,
+   in every state, so nothing can slip through underneath. */
+div[data-testid="collapsedControl"],
+div[data-testid="collapsedControl"]:hover,
+div[data-testid="collapsedControl"]:focus,
+div[data-testid="collapsedControl"]:active {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+    pointer-events: auto !important;
     position: fixed !important;
     left: 0 !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 999999 !important;
-
     width: 32px !important;
     height: 52px !important;
-
+    border-radius: 0 9px 9px 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
     background: #1a3528 !important;
     border: 1px solid rgba(61,186,126,0.45) !important;
     border-left: none !important;
-    border-radius: 0 9px 9px 0 !important;
-
-    padding: 0 !important;
-    margin: 0 !important;
+    cursor: pointer !important;
+    transition: background 0.15s, border-color 0.15s !important;
+}
+div[data-testid="collapsedControl"]:hover {
+    background: #234b38 !important;
+    border-color: #3dba7e !important;
 }
 
-/* Make the actual arrow visible */
-[data-testid="collapsedControl"] svg {
-    width: 22px !important;
-    height: 22px !important;
+/* Force the INNER <button> Streamlit renders inside the div — this is
+   the element that was slipping through and losing the icon on hover. */
+div[data-testid="collapsedControl"] button,
+div[data-testid="collapsedControl"] button:hover,
+div[data-testid="collapsedControl"] button:focus,
+div[data-testid="collapsedControl"] button:active {
+    background: transparent !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Force the icon itself in every state */
+div[data-testid="collapsedControl"] svg,
+div[data-testid="collapsedControl"] span,
+div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
+    opacity: 1 !important;
+    visibility: visible !important;
     fill: #3dba7e !important;
     stroke: #3dba7e !important;
     color: #3dba7e !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* If Streamlit puts the icon inside a span */
-[data-testid="collapsedControl"] span {
-    color: #3dba7e !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* Hover */
-[data-testid="collapsedControl"]:hover {
-    background: #234b38 !important;
-    border-color: #3dba7e !important;
+    width: 22px !important;
+    height: 22px !important;
 }
 
 /* ============================================================
