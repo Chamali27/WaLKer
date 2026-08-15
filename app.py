@@ -956,11 +956,13 @@ button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial
 }
 
 /* » — expand control, shown while sidebar is collapsed.
-   Different Streamlit versions expose this under different testids
-   ("collapsedControl" in older versions, "stSidebarCollapsedControl"
-   in newer ones renamed to match stSidebarCollapseButton) and it may
-   not literally be a <div> — so every variant is covered here, tag
-   name unrestricted. */
+   Streamlit has renamed the internal testid for this control across
+   versions (collapsedControl -> stSidebarCollapsedControl and others),
+   so testid-based matching keeps breaking. aria-label is far more
+   stable across versions — Streamlit sets aria-label="Open sidebar"
+   on this exact button regardless of internal testid churn. Testid
+   selectors are kept too as a belt-and-braces fallback. */
+button[aria-label="Open sidebar"],
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapsedControl"],
 [data-testid="collapsedControl"] button,
@@ -990,6 +992,9 @@ button:has([data-testid="stSidebarCollapsedControl"]) {
     left: 12px !important;
     z-index: 999999 !important;
 }
+button[aria-label="Open sidebar"] svg,
+button[aria-label="Open sidebar"] span,
+button[aria-label="Open sidebar"] [data-testid="stIconMaterial"],
 [data-testid="collapsedControl"] svg,
 [data-testid="collapsedControl"] span,
 [data-testid="collapsedControl"] [data-testid="stIconMaterial"],
