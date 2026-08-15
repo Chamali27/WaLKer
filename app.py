@@ -910,107 +910,23 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   color:#0c3446 !important;
   border:1px solid rgba(12,52,70,0.3) !important;
 }
-/* SIDEBAR COLLAPSE / EXPAND ARROW — single consolidated block.
-   Previously this was split across two separate rule sets (one near the
-   top of the stylesheet, one here) with different z-index/width/height
-   values fighting each other via !important + source order, and neither
-   one pinned the actual inner <button> or icon in a :hover/:focus state
-   — so Streamlit's own default button styles could still win at the
-   exact moment the cursor landed on it, making the arrow disappear on
-   hover even though it looked fine at rest. This version explicitly
-   pins the outer div, the inner button, and the icon/svg/span together,
-   in every state, so nothing can slip through underneath. */
-div[data-testid="collapsedControl"],
-div[data-testid="collapsedControl"]:hover,
-div[data-testid="collapsedControl"]:focus,
-div[data-testid="collapsedControl"]:active {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    position: fixed !important;
-    left: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 999999 !important;
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: #1a3528 !important;
-    border: 2px solid #3dba7e !important;
-    cursor: pointer !important;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.5), 0 0 0 4px rgba(61,186,126,0.14) !important;
-    transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
-}
-div[data-testid="collapsedControl"]:hover {
-    background: #234b38 !important;
-    border-color: #52d896 !important;
-    transform: translateY(-50%) scale(1.08) !important;
-}
+/* SIDEBAR COLLAPSE (« , sidebar OPEN) = WHITE circle, clickable.
+   SIDEBAR EXPAND   (» , sidebar CLOSED) = BLACK circle, clickable.
+   Nothing else — no glow, no scale, no green theme. Both selectors
+   cover every DOM shape Streamlit might use (testid as the button
+   itself, testid wrapping a <button>, or testid inside a <button>). */
 
-/* Force the INNER <button> Streamlit renders inside the div — this is
-   the element that was slipping through and losing the icon on hover. */
-div[data-testid="collapsedControl"] button,
-div[data-testid="collapsedControl"] button:hover,
-div[data-testid="collapsedControl"] button:focus,
-div[data-testid="collapsedControl"] button:active {
-    background: transparent !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    width: 100% !important;
-    height: 100% !important;
-    border: none !important;
-    border-radius: 50% !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* Force the icon itself in every state */
-div[data-testid="collapsedControl"] svg,
-div[data-testid="collapsedControl"] span,
-div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
-    opacity: 1 !important;
-    visibility: visible !important;
-    fill: #3dba7e !important;
-    stroke: #3dba7e !important;
-    color: #3dba7e !important;
-    width: 22px !important;
-    height: 22px !important;
-}
-
-/* SIDEBAR COLLAPSE / EXPAND CONTROL — v3, bulletproof version.
-   Earlier attempts assumed a specific DOM nesting (testid wraps a
-   <button> descendant) that turned out to be wrong for this Streamlit
-   build — the arrow was still rendering as bare unstyled text. Since we
-   can't inspect the live DOM directly, this version covers every
-   possible relationship at once so it doesn't matter how Streamlit
-   nests it:
-     1) the testid IS the clickable button itself
-     2) the testid is a wrapper AROUND a <button> (descendant)
-     3) the testid is INSIDE a <button> (ancestor) — caught via :has()
-   Also restores an explicit fixed position for the collapsed state
-   specifically, since the plain "»" was sitting inline at the top-left
-   of the page rather than floating as an obvious button — that only
-   happens when Streamlit is rendering it in normal document flow
-   instead of picking up any of our sizing/shape rules at all. */
+/* « — collapse button, shown while sidebar is open */
 [data-testid="stSidebarCollapseButton"],
 [data-testid="stSidebarCollapseButton"] button,
-button:has([data-testid="stSidebarCollapseButton"]),
-div[data-testid="collapsedControl"] {
+button:has([data-testid="stSidebarCollapseButton"]) {
     all: unset !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-    background: #1a3528 !important;
-    border: 2px solid #3dba7e !important;
+    background: #ffffff !important;
+    border: 2px solid #ffffff !important;
     border-radius: 50% !important;
     width: 42px !important;
     height: 42px !important;
@@ -1019,7 +935,43 @@ div[data-testid="collapsedControl"] {
     padding: 0 !important;
     margin: 0 !important;
     cursor: pointer !important;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.5), 0 0 0 4px rgba(61,186,126,0.16) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    position: static !important;
+    z-index: 999999 !important;
+}
+[data-testid="stSidebarCollapseButton"] svg,
+[data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
+button:has([data-testid="stSidebarCollapseButton"]) svg,
+button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial"] {
+    fill: #000000 !important;
+    stroke: #000000 !important;
+    color: #000000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* » — expand control, shown while sidebar is collapsed */
+div[data-testid="collapsedControl"] {
+    all: unset !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    background: #000000 !important;
+    border: 2px solid #000000 !important;
+    border-radius: 50% !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
@@ -1027,36 +979,22 @@ div[data-testid="collapsedControl"] {
     top: 16px !important;
     left: 12px !important;
     z-index: 999999 !important;
-    transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
 }
-[data-testid="stSidebarCollapseButton"]:hover,
-[data-testid="stSidebarCollapseButton"] button:hover,
-button:has([data-testid="stSidebarCollapseButton"]):hover,
-div[data-testid="collapsedControl"]:hover {
-    background: #234b38 !important;
-    border-color: #52d896 !important;
-    transform: scale(1.08) !important;
+div[data-testid="collapsedControl"] button {
+    all: unset !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    cursor: pointer !important;
 }
-/* When the sidebar is OPEN, this same control sits inside the sidebar
-   header rather than floating over the hero image — keep it anchored
-   there instead of forcing it to the fixed top-left spot above, so it
-   doesn't visually collide with the hero banner while open. */
-[data-testid="stSidebarHeader"] [data-testid="stSidebarCollapseButton"],
-[data-testid="stSidebarHeader"] button:has([data-testid="stSidebarCollapseButton"]) {
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-}
-[data-testid="stSidebarCollapseButton"] svg,
-[data-testid="stSidebarCollapseButton"] span,
-[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
-button:has([data-testid="stSidebarCollapseButton"]) svg,
-button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial"],
 div[data-testid="collapsedControl"] svg,
+div[data-testid="collapsedControl"] span,
 div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
-    fill: #3dba7e !important;
-    stroke: #3dba7e !important;
-    color: #3dba7e !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
     opacity: 1 !important;
     visibility: visible !important;
     width: 20px !important;
