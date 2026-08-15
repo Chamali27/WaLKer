@@ -807,7 +807,21 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 .chat-online{ width:7px; height:7px; background:#3dba7e; border-radius:50%; box-shadow:0 0 6px #3dba7e; margin-left:auto; }
 
 .bubble-user-row{ display:flex; justify-content:flex-end; margin-bottom:12px; }
-.bubble-user{ background:linear-gradient(135deg,rgba(61,186,126,0.2),rgba(42,144,98,0.14)); border:1px solid rgba(61,186,126,0.3); border-radius:14px 14px 4px 14px; padding:10px 14px; max-width:72%; color:#0c3446 !important; font-size:0.86rem; line-height:1.7; }
+.bubble-user-col{ display:flex; flex-direction:column; align-items:flex-end; max-width:78%; min-width:0; }
+.bubble-user{
+  background:linear-gradient(135deg,rgba(61,186,126,0.2),rgba(42,144,98,0.14));
+  border:1px solid rgba(61,186,126,0.3);
+  border-radius:14px 14px 4px 14px;
+  padding:10px 14px;
+  width:fit-content;
+  max-width:100%;
+  color:#0c3446 !important;
+  font-size:0.86rem;
+  line-height:1.7;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
 .bubble-user-meta{ font-family:'Cambria',monospace; font-size:0.52rem; color:#0c3446 !important; text-align:right; margin-top:3px; }
 
 .bubble-agent-row{ display:flex; justify-content:flex-start; align-items:flex-start; gap:8px; margin-bottom:12px; }
@@ -2799,7 +2813,7 @@ else:
                 safe = msg["content"].replace("<","&lt;").replace(">","&gt;")
                 msgs_html += f"""
                 <div class="bubble-user-row">
-                  <div>
+                  <div class="bubble-user-col">
                     <div class="bubble-user">{safe}</div>
                     <div class="bubble-user-meta">You · {t}</div>
                   </div>
@@ -2840,6 +2854,13 @@ else:
        top-aligning them, and the button is a different height than the input. */
     .st-key-chat_input_row div[data-testid="stHorizontalBlock"] {
         align-items: center !important;
+    }
+    /* Belt-and-braces: the chat input sits one DOM level deeper than the
+       generic stTextInput focus rule above expects, so on some browsers
+       Streamlit's default red focus ring (#FF4B4B) was winning instead. */
+    .st-key-chat_input_row div[data-baseweb="input"]:focus-within {
+        border-color: #3dba7e !important;
+        box-shadow: 0 0 0 2px rgba(61,186,126,0.2) !important;
     }
     </style>
     """, unsafe_allow_html=True)
