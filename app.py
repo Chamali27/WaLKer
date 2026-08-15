@@ -985,49 +985,75 @@ div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
     height: 22px !important;
 }
 
-/* SIDEBAR COLLAPSE / EXPAND CONTROL — single source of truth for BOTH
-   states. Streamlit 1.38+ renamed this element's data-testid from the
-   old "collapsedControl" to "stSidebarCollapseButton" — and crucially,
-   it's the SAME element used for both the "close" arrow shown at the
-   top of the open sidebar AND the "open" arrow shown floating on the
-   page edge once collapsed; Streamlit just repositions it itself
-   depending on state. That's why the open-state circle worked but the
-   collapsed-state one didn't: the earlier rule only matched it when
-   nested under the sidebar header, which isn't true once collapsed.
-   This version targets stSidebarCollapseButton directly, with no
-   position/top/left overrides — Streamlit already places it correctly
-   in both states, we only force the visual (color/shape/size), so we
-   never fight its layout engine and both states get the same circle. */
+/* SIDEBAR COLLAPSE / EXPAND CONTROL — v3, bulletproof version.
+   Earlier attempts assumed a specific DOM nesting (testid wraps a
+   <button> descendant) that turned out to be wrong for this Streamlit
+   build — the arrow was still rendering as bare unstyled text. Since we
+   can't inspect the live DOM directly, this version covers every
+   possible relationship at once so it doesn't matter how Streamlit
+   nests it:
+     1) the testid IS the clickable button itself
+     2) the testid is a wrapper AROUND a <button> (descendant)
+     3) the testid is INSIDE a <button> (ancestor) — caught via :has()
+   Also restores an explicit fixed position for the collapsed state
+   specifically, since the plain "»" was sitting inline at the top-left
+   of the page rather than floating as an obvious button — that only
+   happens when Streamlit is rendering it in normal document flow
+   instead of picking up any of our sizing/shape rules at all. */
+[data-testid="stSidebarCollapseButton"],
 [data-testid="stSidebarCollapseButton"] button,
-[data-testid="stSidebarCollapseButton"] button:hover,
-[data-testid="stSidebarCollapseButton"] button:focus,
-[data-testid="stSidebarCollapseButton"] button:active {
+button:has([data-testid="stSidebarCollapseButton"]),
+div[data-testid="collapsedControl"] {
+    all: unset !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    box-sizing: border-box !important;
     background: #1a3528 !important;
     border: 2px solid #3dba7e !important;
     border-radius: 50% !important;
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
     padding: 0 !important;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.45), 0 0 0 4px rgba(61,186,126,0.14) !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.5), 0 0 0 4px rgba(61,186,126,0.16) !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
+    position: fixed !important;
+    top: 16px !important;
+    left: 12px !important;
     z-index: 999999 !important;
     transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
 }
-[data-testid="stSidebarCollapseButton"] button:hover {
+[data-testid="stSidebarCollapseButton"]:hover,
+[data-testid="stSidebarCollapseButton"] button:hover,
+button:has([data-testid="stSidebarCollapseButton"]):hover,
+div[data-testid="collapsedControl"]:hover {
     background: #234b38 !important;
     border-color: #52d896 !important;
     transform: scale(1.08) !important;
 }
+/* When the sidebar is OPEN, this same control sits inside the sidebar
+   header rather than floating over the hero image — keep it anchored
+   there instead of forcing it to the fixed top-left spot above, so it
+   doesn't visually collide with the hero banner while open. */
+[data-testid="stSidebarHeader"] [data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarHeader"] button:has([data-testid="stSidebarCollapseButton"]) {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+}
 [data-testid="stSidebarCollapseButton"] svg,
 [data-testid="stSidebarCollapseButton"] span,
-[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] {
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
+button:has([data-testid="stSidebarCollapseButton"]) svg,
+button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial"],
+div[data-testid="collapsedControl"] svg,
+div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
     fill: #3dba7e !important;
     stroke: #3dba7e !important;
     color: #3dba7e !important;
@@ -1036,6 +1062,7 @@ div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
     width: 20px !important;
     height: 20px !important;
 }
+
 
 /* ============================================================
    UNIFORM FONT-SIZE PASS — placed here (near the end of the stylesheet)
