@@ -279,22 +279,26 @@ header[data-testid="stHeader"]{
 header[data-testid="stHeader"] * {
   pointer-events:auto!important;
 }
-/* HIDE EVERYTHING ELSE IN THE HEADER — the Share / star / pencil / GitHub
-   icons are Streamlit's own toolbar + deploy/viewer-badge widgets. Only
-   the sidebar open/close arrow (styled above) should stay visible. Covers
-   every known testid for these pieces, plus the hosting platform's
-   viewer-badge widget, whose class names are hashed/change per build so
-   they're matched with a wildcard on "viewerBadge"/"profileContainer"
-   instead of an exact class. */
-[data-testid="stToolbar"],
-[data-testid="stToolbarActions"],
-[data-testid="stDecoration"],
-[data-testid="stStatusWidget"],
-[data-testid="stHeaderActionElements"],
-[data-testid="stAppDeployButton"],
-[class*="viewerBadge" i],
-[class*="profileContainer" i],
-[class*="stActionButton" i] {
+/* Kill the default Streamlit "decoration" strip (a thin colored bar tied
+   to the theme's primary color — this is what was showing as a pink
+   line across the very top). Shrunk to nothing instead of display:none,
+   since collapsing it outright can shift layout in some versions. */
+[data-testid="stDecoration"]{
+  background:transparent!important;
+  height:0!important;
+  min-height:0!important;
+}
+/* HIDE THE EXTRA HEADER ICONS (Share / star / pencil / GitHub / deploy) —
+   IMPORTANT: this targets the individual <button>/<a> elements only, never
+   their parent wrapper (stToolbar / stToolbarActions / stHeaderActionElements).
+   On this Streamlit version the sidebar open/close control lives inside
+   that SAME parent wrapper as the icon buttons, so display:none-ing the
+   wrapper itself (an earlier attempt) hid the sidebar arrow too, since a
+   hidden ancestor hides everything inside it no matter what CSS targets
+   the child. Excluding anything with "sidebar" in its aria-label keeps
+   that one button untouched while removing all the others. */
+header[data-testid="stHeader"] button:not([aria-label*="sidebar" i]),
+header[data-testid="stHeader"] a {
   display:none!important;
   visibility:hidden!important;
 }
