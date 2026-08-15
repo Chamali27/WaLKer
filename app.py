@@ -520,11 +520,14 @@ div[data-baseweb="tooltip"]{ background:#1a3528!important; }
 
   
 /* STREAMLIT'S OWN TOP TOOLBAR — Share / star / GitHub-edit / deploy icons.
-   Not part of the app's own UI, and its light-theme background was
-   showing up as a white box over the dark hero. Hidden entirely — this
-   is a separate element from the sidebar «/» arrows, so it can't
-   affect them. */
-[data-testid="stToolbar"],
+   IMPORTANT: only the action icons themselves are hidden here, never the
+   outer [data-testid="stToolbar"] container — that container also holds
+   the sidebar «/» control in some Streamlit versions, so hiding the whole
+   container previously took the sidebar arrow down with it. The container
+   is kept in the DOM but made fully transparent/see-through instead. */
+[data-testid="stToolbar"]{
+  background:transparent!important;
+}
 [data-testid="stToolbarActions"],
 [data-testid="stStatusWidget"],
 [data-testid="stHeaderActionElements"],
