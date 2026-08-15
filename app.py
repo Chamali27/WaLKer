@@ -520,14 +520,35 @@ div[data-baseweb="tooltip"]{ background:#1a3528!important; }
 
   
 /* STREAMLIT'S OWN TOP TOOLBAR — Share / star / GitHub-edit / deploy icons.
-   Hidden entirely, back to the original request. The sidebar «/» arrow is
-   handled by its own separate rule further below (targets any button left
-   inside the header structurally), so hiding this doesn't affect it. */
-[data-testid="stToolbar"],
+   CONFIRMED in this Streamlit version: the sidebar »/« arrow physically
+   lives INSIDE this same [data-testid="stToolbar"] container. display:none
+   on a parent hides everything inside it — no child CSS can override
+   that — so hiding stToolbar always takes the arrow down with it too.
+   Fix: keep the container in the DOM (transparent, so no white box) and
+   only hide the specific unwanted icons by name. The arrow survives
+   because it's never targeted by these hide rules. */
+[data-testid="stToolbar"]{
+  background:transparent!important;
+  box-shadow:none!important;
+}
 [data-testid="stToolbarActions"],
 [data-testid="stStatusWidget"],
 [data-testid="stHeaderActionElements"],
 [data-testid="stDecoration"]{
+  display:none!important; visibility:hidden!important; }
+
+/* Extra safety net — some Streamlit versions place the Share/star/GitHub/
+   settings buttons as direct children of stToolbar rather than nested
+   inside stToolbarActions. Hidden individually by their known labels so
+   the sidebar toggle ("Open sidebar" / collapse button) is never touched. */
+[data-testid="stToolbar"] button[title*="Share" i],
+[data-testid="stToolbar"] button[aria-label*="Share" i],
+[data-testid="stToolbar"] button[aria-label*="Star" i],
+[data-testid="stToolbar"] button[aria-label*="GitHub" i],
+[data-testid="stToolbar"] button[aria-label*="Fork" i],
+[data-testid="stToolbar"] button[aria-label*="Deploy" i],
+[data-testid="stToolbar"] button[aria-label*="Settings" i],
+[data-testid="stToolbar"] button[aria-label*="menu" i]{
   display:none!important; visibility:hidden!important; }
 
 /* SELECTBOX — same gradient as the Search Weather / Refresh Rate buttons,
