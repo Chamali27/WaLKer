@@ -279,29 +279,6 @@ header[data-testid="stHeader"]{
 header[data-testid="stHeader"] * {
   pointer-events:auto!important;
 }
-/* Kill the default Streamlit "decoration" strip (a thin colored bar tied
-   to the theme's primary color — this is what was showing as a pink
-   line across the very top). Shrunk to nothing instead of display:none,
-   since collapsing it outright can shift layout in some versions. */
-[data-testid="stDecoration"]{
-  background:transparent!important;
-  height:0!important;
-  min-height:0!important;
-}
-/* HIDE THE EXTRA HEADER ICONS (Share / star / pencil / GitHub / deploy) —
-   IMPORTANT: this targets the individual <button>/<a> elements only, never
-   their parent wrapper (stToolbar / stToolbarActions / stHeaderActionElements).
-   On this Streamlit version the sidebar open/close control lives inside
-   that SAME parent wrapper as the icon buttons, so display:none-ing the
-   wrapper itself (an earlier attempt) hid the sidebar arrow too, since a
-   hidden ancestor hides everything inside it no matter what CSS targets
-   the child. Excluding anything with "sidebar" in its aria-label keeps
-   that one button untouched while removing all the others. */
-header[data-testid="stHeader"] button:not([aria-label*="sidebar" i]),
-header[data-testid="stHeader"] a {
-  display:none!important;
-  visibility:hidden!important;
-}
 [data-testid="stAppViewContainer"] > .main{ padding-top:0!important; }
 .block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; padding-top:0!important; }
 
@@ -347,67 +324,57 @@ header[data-testid="stHeader"] a {
    here — instead it's given a real background box, border and comfortable
    padding so it's easy to see and hit wherever Streamlit naturally
    places it, rather than assuming a fixed coordinate that may be wrong. */
-[data-testid="stHeader"] button,
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapseButton"],
 [data-testid="stExpandSidebarButton"],
 [data-testid*="ollapsedControl" i],
 [data-testid*="idebarCollapse" i],
 [data-testid*="xpandSidebar" i],
-button[aria-label*="sidebar" i] {
+button[aria-label="Open sidebar"],
+button[aria-label="Close sidebar"],
+button[aria-label="Collapse sidebar"],
+button[aria-label="Expand sidebar"] {
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   visibility:visible!important;
   opacity:1!important;
   z-index:9999999!important;
-  background:linear-gradient(135deg,#123a2c,#0c2b28)!important;
-  border:1.5px solid rgba(61,186,126,0.6)!important;
-  border-radius:50%!important;
-  width:36px!important;
-  height:36px!important;
-  min-width:36px!important;
-  min-height:36px!important;
+  background:#1a3528!important;
+  border:1.5px solid rgba(61,186,126,0.55)!important;
+  border-radius:8px!important;
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
   padding:0!important;
-  box-shadow:0 2px 10px rgba(0,0,0,0.35)!important;
   cursor:pointer!important;
-  transition:background 0.15s, border-color 0.15s, transform 0.15s!important;
 }
-/* Covers BOTH possible renderings: an <svg> chevron icon on some
-   Streamlit versions, AND a plain text glyph ("«"/"»") inside a
-   <span>/<p> on others — the earlier version only styled svg, which is
-   why the arrow stayed invisible when Streamlit rendered it as text. */
-[data-testid="stHeader"] button svg,
 [data-testid="collapsedControl"] svg,
 [data-testid="stSidebarCollapseButton"] svg,
 [data-testid="stExpandSidebarButton"] svg,
 [data-testid*="ollapsedControl" i] svg,
 [data-testid*="idebarCollapse" i] svg,
 [data-testid*="xpandSidebar" i] svg,
-button[aria-label*="sidebar" i] svg,
-[data-testid="stHeader"] button *,
-[data-testid="collapsedControl"] *,
-[data-testid="stSidebarCollapseButton"] *,
-[data-testid="stExpandSidebarButton"] *,
-button[aria-label*="sidebar" i] * {
+button[aria-label="Open sidebar"] svg,
+button[aria-label="Close sidebar"] svg,
+button[aria-label="Collapse sidebar"] svg,
+button[aria-label="Expand sidebar"] svg {
   fill:#3dba7e!important;
   stroke:#3dba7e!important;
   color:#3dba7e!important;
-  width:16px!important;
-  height:16px!important;
-  font-size:16px!important;
-  font-weight:700!important;
+  width:19px!important;
+  height:19px!important;
   opacity:1!important;
   visibility:visible!important;
 }
-[data-testid="stHeader"] button:hover,
 [data-testid="collapsedControl"]:hover,
 [data-testid="stSidebarCollapseButton"]:hover,
 [data-testid="stExpandSidebarButton"]:hover,
-button[aria-label*="sidebar" i]:hover {
-  background:linear-gradient(135deg,#1a4a38,#123a2c)!important;
+button[aria-label="Open sidebar"]:hover,
+button[aria-label="Close sidebar"]:hover {
+  background:#234b38!important;
   border-color:#3dba7e!important;
-  transform:scale(1.06)!important;
 }
 /* RESPONSIVE — phone + tablet. Streamlit already stacks st.columns
    vertically below its own ~640px breakpoint, so the budget / arrival /
