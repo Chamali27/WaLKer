@@ -519,22 +519,17 @@ div[data-baseweb="tooltip"]{ background:#1a3528!important; }
 
 
   
-/* STREAMLIT'S OWN TOP TOOLBAR — the built-in rerun/menu/deploy icons in the
-   header keep their light-theme default color otherwise, which shows up as
-   a stray white icon floating over the dark background. */
-[data-testid="stToolbar"] button,
-[data-testid="stToolbarActions"] button,
-[data-testid="stStatusWidget"] button,
-[data-testid="stHeaderActionElements"] button{
-  background:transparent!important; }
-[data-testid="stToolbar"] svg,
-[data-testid="stToolbarActions"] svg,
-[data-testid="stStatusWidget"] svg,
-[data-testid="stHeaderActionElements"] svg{
-  fill:#3dba7e!important; color:#3dba7e!important; }
-[data-testid="stStatusWidget"]{
-  background:#1a3528!important; border:1px solid rgba(61,186,126,0.25)!important;
-  border-radius:8px!important; color:#e8f0ec!important; }
+/* STREAMLIT'S OWN TOP TOOLBAR — Share / star / GitHub-edit / deploy icons.
+   Not part of the app's own UI, and its light-theme background was
+   showing up as a white box over the dark hero. Hidden entirely — this
+   is a separate element from the sidebar «/» arrows, so it can't
+   affect them. */
+[data-testid="stToolbar"],
+[data-testid="stToolbarActions"],
+[data-testid="stStatusWidget"],
+[data-testid="stHeaderActionElements"],
+[data-testid="stDecoration"]{
+  display:none!important; visibility:hidden!important; }
 
 /* SELECTBOX — same gradient as the Search Weather / Refresh Rate buttons,
    covers the currency-converter selectbox in the sidebar as well as the
