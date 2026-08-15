@@ -1341,6 +1341,13 @@ div[data-testid="stAlert"] *,
   background: linear-gradient(135deg,#123a4d,#1f4432) !important;
   border-color: #3dba7e !important;
 }
+/* Class-based safety net for the demo-fallback message box, in case the
+   inline style ever gets stripped — mirrors the inline styling exactly. */
+.demo-fallback-box,
+.demo-fallback-box * {
+  color: #2e2008 !important;
+  font-weight: 600 !important;
+}
 
 /* Days-slider ticks/value inside the white "Plan Your Trip" panel —
    these use var(--text2), a light grey-green meant for dark cards,
@@ -2356,9 +2363,9 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
 # Loads a pre-written sample itinerary with zero network calls.
 if st.session_state.get("show_demo_fallback"):
     st.markdown(
-        '<div style="background:#f4ede0;border:1px solid rgba(12,52,70,0.18);'
+        '<div class="demo-fallback-box" style="background:#f4ede0;border:1px solid rgba(12,52,70,0.18);'
         'border-left:3px solid #c9a03e;border-radius:9px;padding:10px 14px;'
-        'color:#5a4520 !important;font-size:0.82rem;margin-bottom:8px;">'
+        'color:#2e2008 !important;font-weight:600;font-size:0.86rem;margin-bottom:8px;">'
         'AI service unavailable right now — '
         'you can load a sample itinerary to keep the demo moving.</div>',
         unsafe_allow_html=True,
