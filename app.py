@@ -1090,6 +1090,29 @@ div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
   height: 46px !important;
 }
 
+/* MOBILE MONTH DROPDOWN — a native selectbox alternative to the 12-button
+   grid above. Both are always rendered in the DOM (Streamlit can't detect
+   screen size server-side), but this media query shows only one at a
+   time: the button grid on wider screens, the dropdown on narrow ones.
+   640px matches Streamlit's own mobile column-stacking breakpoint. */
+.st-key-month_picker_mobile {
+  display: none !important;
+}
+@media (max-width: 640px) {
+  .st-key-month_picker_wrap {
+    display: none !important;
+  }
+  .st-key-month_picker_mobile {
+    display: block !important;
+  }
+}
+.st-key-month_picker_mobile div[data-baseweb="select"] > div {
+  background: linear-gradient(135deg,#0c3446,#19352a) !important;
+  border: 1.5px solid rgba(61,186,126,0.4) !important;
+  border-radius: 10px !important;
+  color: #e8f0ec !important;
+}
+
 /* DROPDOWN TEXT FIX — final, highest-priority pass. Placed last in the
    stylesheet so it wins the cascade over any earlier rule (including other
    !important rules of equal specificity) that failed to darken the open
@@ -1927,6 +1950,22 @@ with form_right, st.container(key="form_right_panel"):
                     if st.button(mkey, key=f"shsm_{mkey}", use_container_width=True):
                         st.session_state.shs_month = mkey
                         st.rerun()
+
+    # Mobile-only dropdown twin of the button grid above — CSS shows just
+    # one of the two depending on viewport width (see .st-key-month_picker_mobile
+    # rules). Reads/writes the same shs_month session state so switching
+    # between screen sizes mid-session never loses the current selection.
+    with st.container(key="month_picker_mobile"):
+        mobile_month_pick = st.selectbox(
+            "shs_month_mobile",
+            month_keys,
+            index=month_keys.index(st.session_state.shs_month),
+            label_visibility="collapsed",
+            key="shsm_mobile_select",
+        )
+    if mobile_month_pick != st.session_state.shs_month:
+        st.session_state.shs_month = mobile_month_pick
+        st.rerun()
 
     picked = MONTH_HIGHLIGHTS[st.session_state.shs_month]
     month_imgs = load_month_images(st.session_state.shs_month)
