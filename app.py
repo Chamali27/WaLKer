@@ -1331,24 +1331,11 @@ div[data-testid="stAlert"],
   border: 1px solid rgba(12,52,70,0.18) !important;
 }
 
-/* MOBILE ARRIVAL-TIME CARDS — force a real 2-across grid (Morning /
-   Afternoon on one row, Evening / Night on the next) instead of
-   letting Streamlit's own mobile breakpoint stack all four into one
-   long vertical column. Applied unconditionally (not just inside a
-   media query) and with the class repeated for extra specificity,
-   since Streamlit's own internal column-stacking rule may use a
-   different breakpoint or otherwise out-specificity a plain
-   media-query-scoped rule targeting the same selector. Desktop is
-   unaffected — these were already rendering as 2 columns there. */
-[class*="st-key-arr_row_"][class*="st-key-arr_row_"] [data-testid="stHorizontalBlock"] {
-  flex-wrap: nowrap !important;
-}
-[class*="st-key-arr_row_"][class*="st-key-arr_row_"] [data-testid="column"] {
-  width: 50% !important;
-  max-width: 50% !important;
-  flex: 0 0 50% !important;
-  min-width: 0 !important;
-}
+/* Arrival-time cards (Morning / Afternoon / Evening / Night) were
+   previously force-fit into a 2-across grid on mobile, but a natural
+   one-per-row stack (Streamlit's own default column-stacking on small
+   screens) reads better at phone widths, so that override has been
+   removed — this section intentionally left as a no-op. */
 
 /* MOBILE — belt-and-braces reinforcement for the three selectboxes in
    the white left panel (Day-1 start, travel month, language). Some
