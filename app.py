@@ -192,15 +192,15 @@ st.markdown("""
 .block-container { padding: 0 clamp(0.7rem, 1.3vw, 1.2rem) clamp(1rem, 1.8vw, 1.4rem) !important; }
 
 /* HERO */
-.hero-wrap { height: clamp(120px, 8.4vw, 158px) !important; }
+.hero-wrap { height: clamp(160px, 12vw, 280px) !important; }
 .hero-content { padding: 0 clamp(14px, 2.2vw, 34px) !important; gap: clamp(9px, 1.1vw, 14px) !important; }
-.hero-badge { height: clamp(26px, 2.4vw, 38px) !important; }
-.hero-text h1 { font-size: clamp(1.35rem, 2.15vw, 2.25rem) !important; }
-.hero-logo { height: clamp(36px, 4.1vw, 63px) !important; }
-.hero-text p { font-size: clamp(0.4rem, 0.5vw, 0.46rem) !important; margin: clamp(4px,0.55vw,7px) 0 0 !important; }
-.hero-stat { padding: clamp(5px,0.7vw,7px) clamp(9px,1.25vw,12px) !important; }
-.hero-stat-num { font-size: clamp(1rem, 1.15vw, 1.15rem) !important; }
-.hero-stat-lbl { font-size: clamp(0.4rem, 0.45vw, 0.43rem) !important; }
+.hero-badge { height: clamp(34px, 3.4vw, 64px) !important; }
+.hero-text h1 { font-size: clamp(1.6rem, 2.6vw, 2.7rem) !important; }
+.hero-logo { height: clamp(52px, 5.8vw, 108px) !important; }
+.hero-text p { font-size: clamp(0.48rem, 0.6vw, 0.55rem) !important; margin: clamp(4px,0.55vw,7px) 0 0 !important; }
+.hero-stat { padding: clamp(8px,1vw,12px) clamp(14px,1.8vw,22px) !important; }
+.hero-stat-num { font-size: clamp(1.2rem, 1.4vw, 1.4rem) !important; }
+.hero-stat-lbl { font-size: clamp(0.46rem, 0.52vw, 0.5rem) !important; }
 
 /* SECTION HEADINGS */
 .sec-title { font-size: clamp(1.05rem, 1.45vw, 1.25rem) !important; }
