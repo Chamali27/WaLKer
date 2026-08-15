@@ -1264,7 +1264,7 @@ MONTH_HIGHLIGHTS = {
             "desc": "National celebrations on the 4th, plus the colourful Navam Perahera along Colombo's lakefront."},
     "MAR": {"name": "Dry Season Peaks",         "where": "South Coast",
             "desc": "Some of the clearest skies of the year on the south coast — prime time for beaches and surfing."},
-    "APR": {"name": "Sinhala & Tamil New Year", "where": "Island-wide"",
+    "APR": {"name": "Sinhala & Tamil New Year", "where": "Island-wide",
             "desc": "The island's biggest cultural holiday — games, sweets, and water-cutting rituals in every town."},
     "MAY": {"name": "Vesak Season",             "where": "Across Sri Lanka",
             "desc": "Experience illuminated streets and beautiful lantern displays for the Buddha's birth, enlightenment and passing."},
