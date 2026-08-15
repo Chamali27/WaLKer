@@ -1026,6 +1026,31 @@ div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
   font-size: 0.66rem !important;
 }
 
+/* MONTH PICKER ("What's Happening in Sri Lanka?") — segmented-control
+   look: one bordered, rounded strip containing all 12 months, buttons
+   flush against each other with thin dividers instead of 12 separate
+   floating pills. The wrap gets the rounded border + overflow:hidden so
+   its square-cornered children still read as one rounded shape; the two
+   row containers get gap:0 so the 6 buttons in each row touch. */
+.st-key-month_picker_wrap {
+  border: 1.5px solid rgba(61,186,126,0.3) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg,#0c3446,#19352a) !important;
+}
+.st-key-month_picker_wrap [data-testid="stVerticalBlock"] {
+  gap: 0 !important;
+}
+[class*="st-key-month_row_"] [data-testid="stHorizontalBlock"] {
+  gap: 0 !important;
+}
+[class*="st-key-month_row_"] [data-testid="column"] {
+  padding: 0 !important;
+}
+.st-key-month_picker_wrap .stButton > button {
+  height: 46px !important;
+}
+
 /* DROPDOWN TEXT FIX — final, highest-priority pass. Placed last in the
    stylesheet so it wins the cascade over any earlier rule (including other
    !important rules of equal specificity) that failed to darken the open
@@ -1818,34 +1843,47 @@ with form_right, st.container(key="form_right_panel"):
     month_keys = list(MONTH_HIGHLIGHTS.keys())
     month_rows = [month_keys[i:i+6] for i in range(0, len(month_keys), 6)]
 
-    for row in month_rows:
-        cols = st.columns(6, gap="small")
-        for col, mkey in zip(cols, row):
-            with col:
-                is_active = st.session_state.shs_month == mkey
-                # Same tripled-selector specificity trick as the arrival-time
-                # cards (proven to work) — a single plain class selector was
-                # silently losing to Streamlit's own button defaults.
-                sel = f".st-key-shsm_{mkey}" * 3
-                st.markdown(f"""
-                <style>
-                {sel} button {{
-                    background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'linear-gradient(135deg,#0c3446,#19352a)'} !important;
-                    border: 2px solid {'#3dba7e' if is_active else 'rgba(255,255,255,0.32)'} !important;
-                    color: #ffffff !important;
-                    font-weight: 700 !important;
-                    font-family: 'Cambria', monospace !important;
-                    border-radius: 8px !important;
-                }}
-                {sel} button p {{
-                    color: #ffffff !important;
-                    font-family: 'Cambria', monospace !important;
-                }}
-                </style>
-                """, unsafe_allow_html=True)
-                if st.button(mkey, key=f"shsm_{mkey}", use_container_width=True):
-                    st.session_state.shs_month = mkey
-                    st.rerun()
+    # Segmented-control look: all 12 buttons sit flush against each other
+    # inside one rounded, bordered strip — dividers between cells instead
+    # of each month being its own separate floating pill.
+    with st.container(key="month_picker_wrap"):
+        for row_idx, row in enumerate(month_rows):
+            is_last_row = row_idx == len(month_rows) - 1
+            with st.container(key=f"month_row_{row_idx}"):
+                cols = st.columns(6, gap="small")
+            for col_idx, (col, mkey) in enumerate(zip(cols, row)):
+                is_last_col = col_idx == len(row) - 1
+                with col:
+                    is_active = st.session_state.shs_month == mkey
+                    sel = f".st-key-shsm_{mkey}" * 3
+                    border_r = "none" if is_last_col else "1px solid rgba(255,255,255,0.14)"
+                    border_b = "none" if is_last_row else "1px solid rgba(255,255,255,0.14)"
+                    st.markdown(f"""
+                    <style>
+                    {sel} button {{
+                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'transparent'} !important;
+                        border: none !important;
+                        border-right: {border_r} !important;
+                        border-bottom: {border_b} !important;
+                        border-radius: 0 !important;
+                        color: {'#3dba7e' if is_active else '#ffffff'} !important;
+                        font-weight: 700 !important;
+                        font-family: 'Cambria', monospace !important;
+                        box-shadow: none !important;
+                        transform: none !important;
+                    }}
+                    {sel} button p {{
+                        color: {'#3dba7e' if is_active else '#ffffff'} !important;
+                        font-family: 'Cambria', monospace !important;
+                    }}
+                    {sel} button:hover {{
+                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'rgba(61,186,126,0.12)'} !important;
+                    }}
+                    </style>
+                    """, unsafe_allow_html=True)
+                    if st.button(mkey, key=f"shsm_{mkey}", use_container_width=True):
+                        st.session_state.shs_month = mkey
+                        st.rerun()
 
     picked = MONTH_HIGHLIGHTS[st.session_state.shs_month]
     month_imgs = load_month_images(st.session_state.shs_month)
