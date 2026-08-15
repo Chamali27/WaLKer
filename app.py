@@ -1292,6 +1292,24 @@ div[data-testid="stAlert"],
   border-radius: 10px !important;
   font-family: 'Cambria', serif !important;
 }
+/* FALLBACK — the four stNotificationContent* selectors below target the
+   inner content wrapper by kind (warning/error/info/success), but that
+   testid doesn't exist in every Streamlit version. When it's missing, the
+   box keeps Streamlit's default pale background while the light text
+   color further down still applies, which is what made st.error() render
+   as near-invisible light text on a pale pink box. This rule sets a dark
+   background directly on the stable outer .stAlert / [data-testid="stAlert"]
+   container so text is always legible even if the kind-specific rule below
+   fails to match; where it does match, the more specific rule below wins
+   and shows the correct per-kind color instead. */
+div[data-testid="stAlert"],
+.stAlert {
+  background: linear-gradient(135deg,#1a2128,#12161c) !important;
+}
+div[data-testid="stAlert"] *,
+.stAlert * {
+  color: #f0ede0 !important;
+}
 [data-testid="stNotificationContentWarning"] { background: linear-gradient(135deg,#2a2410,#1f1c0c) !important; border-left: 3px solid #e8b84b !important; border-radius: 10px !important; padding: 10px 14px !important; }
 [data-testid="stNotificationContentError"]   { background: linear-gradient(135deg,#3a1e1a,#2a1512) !important; border-left: 3px solid #e87060 !important; border-radius: 10px !important; padding: 10px 14px !important; }
 [data-testid="stNotificationContentInfo"]    { background: linear-gradient(135deg,#0c3446,#0a2732) !important; border-left: 3px solid #2f8bb8 !important; border-radius: 10px !important; padding: 10px 14px !important; }
@@ -2283,7 +2301,7 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
         # seconds followed by a wall of text all at once. st.write_stream
         # both renders the chunks and returns the concatenated full text.
         st.markdown(
-            '<div style="color:#0c3446;font-weight:600;font-size:1rem;">'
+            '<div style="color:#0c3446 !important;font-weight:600;font-size:1rem;">'
             '🌴 Planning your perfect Sri Lanka trip...</div>',
             unsafe_allow_html=True,
         )
@@ -2334,7 +2352,7 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
 # Loads a pre-written sample itinerary with zero network calls.
 if st.session_state.get("show_demo_fallback"):
     st.markdown(
-        '<div style="color:#5a6b63;font-size:0.82rem;">AI service unavailable right now — '
+        '<div style="color:#5a6b63 !important;font-size:0.82rem;">AI service unavailable right now — '
         'you can load a sample itinerary to keep the demo moving.</div>',
         unsafe_allow_html=True,
     )
