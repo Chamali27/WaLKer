@@ -815,7 +815,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 #itin-inner ul{ padding-left:1.2rem; margin:4px 0; }
 
 /* CHAT BUBBLES */
-.chat-header-bar{ background:linear-gradient(135deg,#1a3528,#162d22); border:1px solid rgba(61,186,126,0.2); border-radius:14px 14px 0 0; padding:14px 20px; display:flex; align-items:center; gap:10px; }
+.chat-header-bar{ background:linear-gradient(135deg,#0c3446,#19352a); border:1px solid rgba(61,186,126,0.2); border-radius:14px 14px 0 0; padding:14px 20px; display:flex; align-items:center; gap:10px; }
 .chat-hicon{ width:34px; height:34px; background:linear-gradient(135deg,#2f8bb8,#1c5c7d); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
 .chat-htitle{ font-family:'Cambria',serif; font-size:1.05rem; font-weight:600; color:#e8f0ec; }
 .chat-hsub{ font-family:'Cambria',monospace; font-size:0.54rem; letter-spacing:1px; text-transform:uppercase; color:#5a7a6a; }
@@ -2584,7 +2584,7 @@ else:
             f'<span class="{"goal-pass" if ok else "goal-fail"}">{"✓" if ok else "✗"} {c}</span>'
             for c, ok in goal.get("checks",{}).items())
         st.markdown(f"""
-        <div style="background:#1a3528;border:1px solid rgba(255,255,255,0.1);border-left:4px solid {sc};
+        <div style="background:linear-gradient(135deg,#0c3446,#19352a);border:1px solid rgba(255,255,255,0.1);border-left:4px solid {sc};
                     border-radius:9px;padding:12px 16px;margin-bottom:14px;">
           <div style="font-family:'Cambria',monospace;font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:{sc};margin-bottom:6px;">Agent Self-Evaluation</div>
           <div style="font-size:0.8rem;color:#a8bfb3;margin-bottom:8px;">{goal.get('label','')}</div>
@@ -2643,7 +2643,7 @@ else:
             return '\n'.join(out)
 
         st.markdown(
-            f'<div style="background:#1a3528;border:1px solid rgba(255,255,255,0.1);border-left:4px solid #3dba7e;'
+            f'<div style="background:linear-gradient(135deg,#0c3446,#19352a);border:1px solid rgba(255,255,255,0.1);border-left:4px solid #3dba7e;'
             f'border-radius:14px;padding:24px 26px;max-height:600px;overflow-y:auto;">'
             f'<div id="itin-inner">{md_to_html(display_itinerary)}</div></div>',
             unsafe_allow_html=True)
