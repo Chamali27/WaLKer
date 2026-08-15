@@ -1349,6 +1349,18 @@ div[data-testid="stAlert"],
   color-scheme: dark !important;
 }
 
+/* SIDEBAR SELECTBOXES — currency converter (EUR/USD/GBP) hits the exact
+   same WebKit bug as the left-panel selects above (browser repaints select
+   text via -webkit-text-fill-color, ignoring plain `color`), but only the
+   left-panel selects were ever patched for it. Extends the same fix to
+   every selectbox inside the sidebar. */
+[data-testid="stSidebar"] div[data-testid="stSelectbox"],
+[data-testid="stSidebar"] div[data-testid="stSelectbox"] * {
+  color: #f4faf7 !important;
+  -webkit-text-fill-color: #f4faf7 !important;
+  color-scheme: dark !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
