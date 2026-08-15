@@ -904,11 +904,10 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   color:#0c3446 !important;
   border:1px solid rgba(12,52,70,0.3) !important;
 }
-/* SIDEBAR COLLAPSE (« , sidebar OPEN) = WHITE circle, clickable.
-   SIDEBAR EXPAND   (» , sidebar CLOSED) = BLACK circle, clickable.
-   Nothing else — no glow, no scale, no green theme. Both selectors
-   cover every DOM shape Streamlit might use (testid as the button
-   itself, testid wrapping a <button>, or testid inside a <button>). */
+/* SIDEBAR COLLAPSE (« , sidebar OPEN) and EXPAND (» , sidebar CLOSED) —
+   both use the SAME dark green circle + green border + green icon
+   (matches the sidebar panel's own colour), so the control looks
+   identical whether the sidebar is open or collapsed. */
 
 /* « — collapse button, shown while sidebar is open */
 [data-testid="stSidebarCollapseButton"],
@@ -972,8 +971,8 @@ button:has([data-testid="stSidebarCollapsedControl"]) {
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-    background: #000000 !important;
-    border: 2px solid #000000 !important;
+    background: #0c2b28 !important;
+    border: 2px solid #3dba7e !important;
     border-radius: 50% !important;
     width: 42px !important;
     height: 42px !important;
@@ -989,7 +988,7 @@ button:has([data-testid="stSidebarCollapsedControl"]) {
     top: 16px !important;
     left: 12px !important;
     z-index: 999999 !important;
-    color: #ffffff !important;
+    color: #3dba7e !important;
     font-size: 18px !important;
     line-height: 1 !important;
 }
@@ -1007,9 +1006,9 @@ button:has([data-testid="collapsedControl"]) svg,
 button:has([data-testid="collapsedControl"]) [data-testid="stIconMaterial"],
 button:has([data-testid="stSidebarCollapsedControl"]) svg,
 button:has([data-testid="stSidebarCollapsedControl"]) [data-testid="stIconMaterial"] {
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
-    color: #ffffff !important;
+    fill: #3dba7e !important;
+    stroke: #3dba7e !important;
+    color: #3dba7e !important;
     opacity: 1 !important;
     visibility: visible !important;
     width: 20px !important;
