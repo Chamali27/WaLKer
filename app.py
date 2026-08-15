@@ -24,6 +24,9 @@ from memory import (
     get_smart_memory_context, get_destination_frequency,
 )
 
+st.write("GROQ DEBUG")
+st.write("Groq imported:", GROQ_OK)
+st.write("Groq key loaded:", bool(GROQ_API_KEY))
 # PAGE CONFIG
 st.set_page_config(
     page_title="WaLKer · AI Travel Agent",
