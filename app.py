@@ -914,6 +914,16 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 .empty-state-title{ font-family:'Cambria',serif !important; font-size:1.7rem !important; color:#0c3446 !important; margin-bottom:10px !important; }
 .empty-state-sub{ font-size:0.84rem !important; line-height:2 !important; color:#0c3446 !important; }
 .st-key-form_left_panel .hint-text{ font-size:0.78rem !important; color:#0c3446 !important; padding:8px 0 !important; }
+/* ARRIVAL ADVICE BOX — advice-morning/afternoon/evening/night colors
+   (#c9a03e, #3dba7e, #7aaae8, #b08ae0) were tuned for a dark card
+   background. Since "Plan Your Trip" moved to a white panel, those same
+   light/muted colors sit on a near-white tint and lose almost all
+   contrast. Darkened per-variant, scoped to this panel only, so the box
+   still looks fine anywhere else it might be reused on a dark surface. */
+.st-key-form_left_panel .advice-morning{ color:#8a6512 !important; }
+.st-key-form_left_panel .advice-afternoon{ color:#1f6b47 !important; }
+.st-key-form_left_panel .advice-evening{ color:#1c4c85 !important; }
+.st-key-form_left_panel .advice-night{ color:#5a3a92 !important; }
 .st-key-form_right_panel .panel-caption{
   font-family:'Cambria',monospace !important; font-size:0.6rem !important; letter-spacing:1.5px !important;
   text-transform:uppercase !important; color:#2c4450 !important; display:block !important; margin-bottom:14px !important;
