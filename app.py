@@ -1818,7 +1818,7 @@ with st.sidebar:
         st.markdown(f'<div class="chip-row">{chips}</div>', unsafe_allow_html=True)
 
     st.markdown('<hr class="divider">', unsafe_allow_html=True)
-    st.markdown('<span class="mono-label">🕐 Past Trips</span>', unsafe_allow_html=True)
+    st.markdown('<span class="mono-label">Past Trips</span>', unsafe_allow_html=True)
     recent = get_recent_trips(15)
     if not recent:
         st.caption("No trips yet — plan your first one!")
