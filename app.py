@@ -824,7 +824,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
    white-on-navy styling untouched. */
 .st-key-form_left_panel .panel-label{
   font-family:'Cambria',serif !important;
-  font-size:0.85rem !important;
+  font-size:1rem !important;
   font-weight:600 !important;
   color:#0c3446 !important;
 }
@@ -834,7 +834,7 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 }
 .st-key-form_right_panel .panel-label{
   font-family:'Cambria',serif !important;
-  font-size:0.85rem !important;
+  font-size:1rem !important;
   font-weight:600 !important;
   color:#0c3446 !important;
 }
@@ -939,12 +939,10 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
 }
 
 /* .panel-label ("What are your interests?", "How many days?", "Your
-   Budget?", etc.) — the two compound selectors that used to override
-   this to 1.30rem (.st-key-form_left_panel .panel-label and
-   .st-key-form_right_panel .panel-label, further up the stylesheet)
-   have been fixed at the source, so this plain rule now applies cleanly. */
+   Budget?", "When do you arrive?" etc.) — sized between the small body
+   text (0.85rem) and the "Plan Your Trip" heading (1.15rem). */
 .panel-label {
-  font-size: 0.85rem !important;
+  font-size: 1rem !important;
 }
 
 /* Everything else: body copy, form labels, buttons, cards, chat, chips */
