@@ -1744,7 +1744,7 @@ with form_left, st.container(key="form_left_panel"):
         """, unsafe_allow_html=True)
     else:
         st.markdown(
-            '<div class="hint-text">Pick an arrival time above to see Day 1 advice.</div>',
+            '<div class="hint-text" style="color:#0c3446 !important;">Pick an arrival time above to see Day 1 advice.</div>',
             unsafe_allow_html=True,
         )
 
