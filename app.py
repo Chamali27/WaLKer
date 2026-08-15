@@ -925,16 +925,23 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
    re-asserted at the end of this block so it keeps its original size.
    ============================================================ */
 
-/* Section headings & panel labels — dialed to 0.95rem */
+/* "Plan Your Trip" / "What are your interests?" — bumped up so the
+   section heading reads bigger than the rest of the panel text. */
 .sec-title,
 .panel-label,
 .st-key-form_left_panel .panel-label,
 .st-key-form_right_panel .panel-label {
-  font-size: 0.95rem !important;
+  font-size: 1.15rem !important;
+}
+
+/* Small monospace captions — "TELL THE AI AGENT ABOUT YOUR JOURNEY" now
+   matches "CLICK A CARD TO SELECT..." (.panel-caption), which is already
+   pinned to 0.6rem by a more specific rule further up the stylesheet. */
+.sec-sub, .panel-sublabel, .panel-caption, .mono-label, .hint-text {
+  font-size: 0.6rem !important;
 }
 
 /* Everything else: body copy, form labels, buttons, cards, chat, chips */
-.sec-sub, .panel-sublabel, .panel-caption, .mono-label, .hint-text,
 .chip, .ai-box, .arrival-advice, .hist-card, .status-item,
 .bubble-user, .bubble-agent, .bubble-user-meta, .bubble-agent-meta,
 .sug-chip, .sug-label, .chat-htitle, .chat-hsub,
