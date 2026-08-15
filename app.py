@@ -1003,9 +1003,9 @@ button:has([data-testid="collapsedControl"]) svg,
 button:has([data-testid="collapsedControl"]) [data-testid="stIconMaterial"],
 button:has([data-testid="stSidebarCollapsedControl"]) svg,
 button:has([data-testid="stSidebarCollapsedControl"]) [data-testid="stIconMaterial"] {
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
-    color: #ffffff !important;
+    fill: #000000 !important;
+    stroke: #000000 !important;
+    color: #000000 !important;
     opacity: 1 !important;
     visibility: visible !important;
     width: 20px !important;
