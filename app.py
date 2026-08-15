@@ -303,6 +303,20 @@ html, body, .stApp{ overflow-x:hidden!important; }
   .stButton[class*="st-key-budget_"] button{ height:76px!important; font-size:0.78rem!important; }
   .stButton[class*="st-key-arr_"] button{ height:72px!important; font-size:0.7rem!important; }
 
+  /* MONTH PICKER — unlike the cards above, this one should NOT collapse
+     to one-per-row (that turns the tidy 6-across strip into a long
+     JAN / FEB / MAR ... vertical list). Force the columns back into a
+     4-across grid (3 rows of 4) so it stays a compact grid on phones. */
+  [class*="st-key-month_row_"] [data-testid="column"]{
+    width: 25% !important;
+    flex: 0 0 25% !important;
+    min-width: 0 !important;
+  }
+  .st-key-month_picker_wrap .stButton > button{
+    height: 42px !important;
+    font-size: 0.68rem !important;
+  }
+
   [data-testid="stSidebar"] .block-container{ padding:1rem 0.8rem 1.6rem!important; }
 }
 
