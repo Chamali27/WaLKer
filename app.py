@@ -279,6 +279,25 @@ header[data-testid="stHeader"]{
 header[data-testid="stHeader"] * {
   pointer-events:auto!important;
 }
+/* HIDE EVERYTHING ELSE IN THE HEADER — the Share / star / pencil / GitHub
+   icons are Streamlit's own toolbar + deploy/viewer-badge widgets. Only
+   the sidebar open/close arrow (styled above) should stay visible. Covers
+   every known testid for these pieces, plus the hosting platform's
+   viewer-badge widget, whose class names are hashed/change per build so
+   they're matched with a wildcard on "viewerBadge"/"profileContainer"
+   instead of an exact class. */
+[data-testid="stToolbar"],
+[data-testid="stToolbarActions"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"],
+[data-testid="stHeaderActionElements"],
+[data-testid="stAppDeployButton"],
+[class*="viewerBadge" i],
+[class*="profileContainer" i],
+[class*="stActionButton" i] {
+  display:none!important;
+  visibility:hidden!important;
+}
 [data-testid="stAppViewContainer"] > .main{ padding-top:0!important; }
 .block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; padding-top:0!important; }
 
@@ -350,6 +369,10 @@ button[aria-label*="sidebar" i] {
   cursor:pointer!important;
   transition:background 0.15s, border-color 0.15s, transform 0.15s!important;
 }
+/* Covers BOTH possible renderings: an <svg> chevron icon on some
+   Streamlit versions, AND a plain text glyph ("«"/"»") inside a
+   <span>/<p> on others — the earlier version only styled svg, which is
+   why the arrow stayed invisible when Streamlit rendered it as text. */
 [data-testid="stHeader"] button svg,
 [data-testid="collapsedControl"] svg,
 [data-testid="stSidebarCollapseButton"] svg,
@@ -357,12 +380,19 @@ button[aria-label*="sidebar" i] {
 [data-testid*="ollapsedControl" i] svg,
 [data-testid*="idebarCollapse" i] svg,
 [data-testid*="xpandSidebar" i] svg,
-button[aria-label*="sidebar" i] svg {
+button[aria-label*="sidebar" i] svg,
+[data-testid="stHeader"] button *,
+[data-testid="collapsedControl"] *,
+[data-testid="stSidebarCollapseButton"] *,
+[data-testid="stExpandSidebarButton"] *,
+button[aria-label*="sidebar" i] * {
   fill:#3dba7e!important;
   stroke:#3dba7e!important;
   color:#3dba7e!important;
   width:16px!important;
   height:16px!important;
+  font-size:16px!important;
+  font-weight:700!important;
   opacity:1!important;
   visibility:visible!important;
 }
