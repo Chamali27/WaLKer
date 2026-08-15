@@ -1260,7 +1260,7 @@ INTEREST_PHOTOS = {
 MONTH_HIGHLIGHTS = {
     "JAN": {"name": "Duruthu Perahera",        "where": "Kelaniya"      ,
             "desc": "The year's first major perahera lights up Kelaniya Temple. Whale-watching season also opens in Mirissa."},
-    "FEB": {"name": "Independence Day",         "where": "Colombo"",
+    "FEB": {"name": "Independence Day",         "where": "Colombo",
             "desc": "National celebrations on the 4th, plus the colourful Navam Perahera along Colombo's lakefront."},
     "MAR": {"name": "Dry Season Peaks",         "where": "South Coast",
             "desc": "Some of the clearest skies of the year on the south coast — prime time for beaches and surfing."},
