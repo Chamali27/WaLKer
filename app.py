@@ -2880,7 +2880,7 @@ else:
         st.markdown(f'<div style="{chat_container_style}">{msgs_html}</div>', unsafe_allow_html=True)
 
     # Quick suggestions row
-    suggestions = ["🚂 Best transport?","🏨 Hotel tips?","🍛 Must-try foods?","📅 Add Kandy","💰 Budget breakdown?","🌧️ Best time to visit?"]
+    suggestions = ["Best transport?","Hotel tips?","Must-try foods?","Add Kandy","Budget breakdown?","Best time to visit?"]
     sug_html = " ".join(f'<span class="sug-chip" style="cursor:pointer;">{s}</span>' for s in suggestions)
     st.markdown(f"""
     <div class="sug-row">
