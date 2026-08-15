@@ -274,6 +274,10 @@ header[data-testid="stHeader"]{
   background:transparent!important;
   z-index:999999!important;
   padding:8px 6px!important;
+  pointer-events:none!important;
+}
+header[data-testid="stHeader"] * {
+  pointer-events:auto!important;
 }
 [data-testid="stAppViewContainer"] > .main{ padding-top:0!important; }
 .block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; padding-top:0!important; }
@@ -310,10 +314,31 @@ header[data-testid="stHeader"]{
 [data-testid="collapsedControl"]{ display:flex!important; visibility:visible!important; opacity:1!important;
   background:#1a3528!important; border:1px solid rgba(61,186,126,0.3)!important; border-left:none!important;
   border-radius:0 8px 8px 0!important; position:fixed!important; top:50%!important; left:0!important;
-  z-index:9999!important; width:24px!important; height:48px!important; cursor:pointer!important; }
+  z-index:9999999!important; width:24px!important; height:48px!important; cursor:pointer!important; }
 [data-testid="collapsedControl"] svg {
     fill: #3dba7e !important;
     stroke: #3dba7e !important;
+}
+/* The header above is now position:fixed spanning the full page width at
+   z-index:999999 (so it can float over the hero). That same top-left
+   region is also where the sidebar's own OPEN/close toggle chevron sits,
+   so the header was intermittently rendering on top of it and hiding it.
+   Pinning the sidebar's own controls to an even higher z-index — and
+   forcing a visible icon colour, since this button has no styling of
+   its own elsewhere — keeps it on top and always visible regardless of
+   which one paints last. */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarHeader"] button,
+[data-testid="stSidebar"] [data-testid="stExpandSidebarButton"] {
+  position:relative!important;
+  z-index:9999999!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+[data-testid="stSidebarCollapseButton"] svg,
+[data-testid="stSidebarHeader"] button svg,
+[data-testid="stSidebar"] [data-testid="stExpandSidebarButton"] svg {
+  fill:#3dba7e!important; color:#3dba7e!important; opacity:1!important;
 }
 /* RESPONSIVE — phone + tablet. Streamlit already stacks st.columns
    vertically below its own ~640px breakpoint, so the budget / arrival /
