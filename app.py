@@ -151,6 +151,23 @@ st.markdown("""
 [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
 [data-testid="column"] { min-width: 54px !important; }
 
+/* Budget & arrival cards need real room for their text — the global
+   54px column min-width above is fine for image grids but too small
+   here, which causes "U S D 5 0" letter-by-letter wrapping on narrow
+   viewports. Give these two rows their own, larger minimum so
+   Streamlit's normal column-stacking kicks in before that happens. */
+.st-key-budget_row [data-testid="column"],
+[class*="st-key-arr_row_"] [data-testid="column"] {
+  min-width: 150px !important;
+}
+.stButton[class*="st-key-budget_"] button,
+.stButton[class*="st-key-budget_"] button p,
+.stButton[class*="st-key-arr_"] button,
+.stButton[class*="st-key-arr_"] button p {
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+}
+
 /* Page padding */
 .block-container { padding: 0 clamp(0.7rem, 1.3vw, 1.2rem) clamp(1rem, 1.8vw, 1.4rem) !important; }
 
@@ -898,6 +915,52 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
     border-color: #3dba7e !important;
 }
 
+/* ============================================================
+   UNIFORM FONT-SIZE PASS — placed here (near the end of the stylesheet)
+   so it overrides the earlier clamp()-based fluid sizing further up.
+   Everything shrinks to 0.85rem, with 0.95rem reserved for section
+   titles / panel labels ("Plan Your Trip", "How many days?", etc.) and
+   the big card buttons, which need to stay a bit more prominent. The
+   hero banner ("WaLKer" wordmark + stats) is explicitly excluded and
+   re-asserted at the end of this block so it keeps its original size.
+   ============================================================ */
+
+/* Section headings & panel labels — dialed to 0.95rem */
+.sec-title,
+.panel-label,
+.st-key-form_left_panel .panel-label,
+.st-key-form_right_panel .panel-label {
+  font-size: 0.95rem !important;
+}
+
+/* Everything else: body copy, form labels, buttons, cards, chat, chips */
+.sec-sub, .panel-sublabel, .panel-caption, .mono-label, .hint-text,
+.chip, .ai-box, .arrival-advice, .hist-card, .status-item,
+.bubble-user, .bubble-agent, .bubble-user-meta, .bubble-agent-meta,
+.sug-chip, .sug-label, .chat-htitle, .chat-hsub,
+#itin-inner p, #itin-inner li, #itin-inner h3,
+p, div, li, label, span, button, input, textarea, select,
+div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
+  font-size: 0.85rem !important;
+}
+
+/* Card buttons (budget / arrival / interests / generate) — a touch
+   larger than plain body text since they're the primary tap targets */
+.stButton[class*="st-key-budget_"] button,
+.stButton[class*="st-key-budget_"] button p,
+.stButton[class*="st-key-arr_"] button,
+.stButton[class*="st-key-arr_"] button p,
+.st-key-btn_generate[class] button,
+.st-key-btn_generate[class] button p {
+  font-size: 0.95rem !important;
+}
+
+/* ── Re-assert the hero's own sizes — untouched by the rules above ── */
+.hero-text h1  { font-size: clamp(1.35rem, 2.15vw, 2.25rem) !important; }
+.hero-text p   { font-size: clamp(0.4rem, 0.5vw, 0.46rem) !important; }
+.hero-stat-num { font-size: clamp(1rem, 1.15vw, 1.15rem) !important; }
+.hero-stat-lbl { font-size: clamp(0.4rem, 0.45vw, 0.43rem) !important; }
+
 /* DROPDOWN TEXT FIX — final, highest-priority pass. Placed last in the
    stylesheet so it wins the cascade over any earlier rule (including other
    !important rules of equal specificity) that failed to darken the open
@@ -1288,7 +1351,8 @@ with form_left, st.container(key="form_left_panel"):
         "Luxury":   {"sub": "Over USD 150/day",      "key": "Luxury (Over USD 150/day)"},
     }
 
-    budget_cols = st.columns(3, gap="small")
+    with st.container(key="budget_row"):
+        budget_cols = st.columns(3, gap="small")
     for col, (label, opt) in zip(budget_cols, BUDGET_OPTIONS.items()):
         is_active = st.session_state.budget_choice == opt["key"]
         btn_key = f"budget_{label}"
@@ -1364,8 +1428,9 @@ with form_left, st.container(key="form_left_panel"):
     arr_keys = list(ARRIVAL_OPTIONS.keys())
 
 # Row 1: Morning, Afternoon · Row 2: Evening, Night
-    for row_keys in (arr_keys[:2], arr_keys[2:]):
-        row_cols = st.columns(2, gap="small")
+    for row_idx, row_keys in enumerate((arr_keys[:2], arr_keys[2:])):
+        with st.container(key=f"arr_row_{row_idx}"):
+            row_cols = st.columns(2, gap="small")
         for col, key in zip(row_cols, row_keys):
             opt = ARRIVAL_OPTIONS[key]
             is_active = selected_arrival == key
