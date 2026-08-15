@@ -925,28 +925,31 @@ div[data-testid="collapsedControl"]:hover,
 div[data-testid="collapsedControl"]:focus,
 div[data-testid="collapsedControl"]:active {
     display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     position: fixed !important;
-    left: 0 !important;
+    left: 12px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 999999 !important;
-    width: 32px !important;
-    height: 52px !important;
-    border-radius: 0 9px 9px 0 !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
     padding: 0 !important;
     margin: 0 !important;
     background: #1a3528 !important;
-    border: 1px solid rgba(61,186,126,0.45) !important;
-    border-left: none !important;
+    border: 2px solid #3dba7e !important;
     cursor: pointer !important;
-    transition: background 0.15s, border-color 0.15s !important;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.5), 0 0 0 4px rgba(61,186,126,0.14) !important;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
 }
 div[data-testid="collapsedControl"]:hover {
     background: #234b38 !important;
-    border-color: #3dba7e !important;
+    border-color: #52d896 !important;
+    transform: translateY(-50%) scale(1.08) !important;
 }
 
 /* Force the INNER <button> Streamlit renders inside the div — this is
@@ -962,7 +965,11 @@ div[data-testid="collapsedControl"] button:active {
     width: 100% !important;
     height: 100% !important;
     border: none !important;
+    border-radius: 50% !important;
     box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 /* Force the icon itself in every state */
@@ -976,6 +983,57 @@ div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
     color: #3dba7e !important;
     width: 22px !important;
     height: 22px !important;
+}
+
+/* SIDEBAR'S OWN "CLOSE" TOGGLE (the « icon that sits at the top of the
+   sidebar while it's expanded) — this had NO custom styling at all
+   before, which is why it was hard to spot: it was rendering with
+   Streamlit's bare default button look, easy to miss against the dark
+   sidebar background. Styled to match the outside "open" circle above,
+   so both states use the same unmistakable green-circle look. Streamlit
+   has used a couple of different data-testids for this button across
+   versions, so every known one is covered here defensively — harmless
+   if a selector doesn't match anything in your version. */
+[data-testid="stSidebarCollapseButton"] button,
+[data-testid="stSidebarCollapseButton"] button:hover,
+[data-testid="stSidebarCollapseButton"] button:focus,
+[data-testid="stSidebarHeader"] button,
+[data-testid="stSidebarHeader"] button:hover,
+[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"],
+[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"]:hover {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #1a3528 !important;
+    border: 2px solid #3dba7e !important;
+    border-radius: 50% !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.45), 0 0 0 4px rgba(61,186,126,0.14) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
+}
+[data-testid="stSidebarCollapseButton"] button:hover,
+[data-testid="stSidebarHeader"] button:hover,
+[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"]:hover {
+    background: #234b38 !important;
+    border-color: #52d896 !important;
+    transform: scale(1.08) !important;
+}
+[data-testid="stSidebarCollapseButton"] svg,
+[data-testid="stSidebarHeader"] svg,
+[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"] svg {
+    fill: #3dba7e !important;
+    stroke: #3dba7e !important;
+    color: #3dba7e !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 20px !important;
+    height: 20px !important;
 }
 
 /* ============================================================
@@ -2602,3 +2660,4 @@ else:
             st.session_state.chat_messages = []
             st.session_state.chat_history  = []
             st.rerun()
+    
