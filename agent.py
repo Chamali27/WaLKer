@@ -70,6 +70,14 @@ def _get_client():
         _client = Groq(api_key=GROQ_API_KEY)
     return _client
 
+def groq_debug():
+    return {
+        "groq_imported": GROQ_OK,
+        "api_key_loaded": bool(GROQ_API_KEY),
+        "client_created": _get_client() is not None,
+        "model": LLM_MODEL,
+    }
+
 
 def _classify_error(e: Exception) -> tuple[str, bool]:
     """Returns (human_reason, is_retryable)."""
