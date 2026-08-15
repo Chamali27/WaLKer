@@ -972,6 +972,60 @@ div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
 .hero-stat-num { font-size: clamp(1rem, 1.15vw, 1.15rem) !important; }
 .hero-stat-lbl { font-size: clamp(0.4rem, 0.45vw, 0.43rem) !important; }
 
+/* ── SIDEBAR — restore/shrink the sizes the blanket rule above wiped
+   out. The blanket "p, div, span..." rule (with !important) overrode
+   every hand-tuned inline font-size in the sidebar (weather advisory,
+   humidity/wind, currency text, etc.) up to a uniform 0.85rem, which is
+   why it all looked bigger and same-sized. These scoped rules use
+   [data-testid="stSidebar"] + a class, which is more specific than a
+   plain tag selector, so they win regardless of source order. ── */
+
+/* General fallback for anything in the sidebar not covered below —
+   smaller than the main content per user request. */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] div,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] li,
+[data-testid="stSidebar"] label {
+  font-size: 0.7rem !important;
+}
+
+.weather-city   { font-size: 1rem !important; }
+.weather-temp   { font-size: 2.2rem !important; }
+.weather-desc   { font-size: 0.66rem !important; }
+.weather-stat   { font-size: 0.66rem !important; }
+.weather-advisory { font-size: 0.68rem !important; }
+.currency-box   { font-size: 0.78rem !important; }
+.currency-value { font-size: 1rem !important; }
+.currency-asof  { font-size: 0.6rem !important; }
+
+/* Trending Destinations chips — shrunk back down in the sidebar only
+   (the same .chip class is used elsewhere at the normal 0.85rem size,
+   e.g. selected-interest chips in the main panel, which stay untouched). */
+[data-testid="stSidebar"] .chip {
+  font-size: 0.6rem !important;
+  padding: 2px 8px !important;
+}
+
+/* Sidebar text input / selectbox — dialed down to match. */
+[data-testid="stSidebar"] .stTextInput input,
+[data-testid="stSidebar"] div[data-testid="stSelectbox"] * {
+  font-size: 0.76rem !important;
+}
+
+/* PAST TRIPS LIST — buttons were clipping mid-word (no ellipsis, just a
+   hard cut) because a button's default white-space:nowrap + the
+   container's own overflow left no room for the full label. Letting the
+   label wrap to 2 lines instead fixes it cleanly. */
+[class*="st-key-past_trips_list"] .stButton>button {
+  white-space: normal !important;
+  word-break: break-word !important;
+  height: auto !important;
+  min-height: 34px !important;
+  line-height: 1.4 !important;
+  font-size: 0.66rem !important;
+}
+
 /* DROPDOWN TEXT FIX — final, highest-priority pass. Placed last in the
    stylesheet so it wins the cascade over any earlier rule (including other
    !important rules of equal specificity) that failed to darken the open
@@ -1232,12 +1286,12 @@ with st.sidebar:
         icon = icon_map.get(wd.get("icon",""), "🌡️")
         st.markdown(f"""
         <div style="background:linear-gradient(135deg,#0c3446,#19352a);border:1px solid rgba(61,186,126,0.2);border-radius:14px;padding:16px 20px;margin-bottom:14px;">
-          <p style="font-family:'Cambria',serif;font-size:1.1rem;font-weight:600;color:#e8f0ec;margin:0;">{icon} {wd['city']}, {wd['country']}</p>
-          <p style="font-family:'Cambria',serif;font-size:2.4rem;font-weight:400;color:#3dba7e;line-height:1;margin:4px 0;">{wd['temp']}°C</p>
-          <p style="font-family:'Cambria',monospace;font-size:0.7rem;color:#a8bfb3;margin:0;">{wd['description']} · feels {wd['feels_like']}°C</p>
+          <p style="font-family:'Cambria',serif;font-size:1.1rem;font-weight:600;color:#e8f0ec;margin:0;" class="weather-city">{icon} {wd['city']}, {wd['country']}</p>
+          <p style="font-family:'Cambria',serif;font-size:2.4rem;font-weight:400;color:#3dba7e;line-height:1;margin:4px 0;" class="weather-temp">{wd['temp']}°C</p>
+          <p style="font-family:'Cambria',monospace;font-size:0.7rem;color:#a8bfb3;margin:0;" class="weather-desc">{wd['description']} · feels {wd['feels_like']}°C</p>
           <div style="display:flex;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);">
-            <div style="font-size:0.72rem;color:#5a7a6a;">Humidity<br><span style="color:#e8f0ec;font-weight:500;">{wd['humidity']}%</span></div>
-            <div style="font-size:0.72rem;color:#5a7a6a;">Wind<br><span style="color:#e8f0ec;font-weight:500;">{wd['wind']} m/s</span></div>
+            <div style="font-size:0.72rem;color:#5a7a6a;" class="weather-stat">Humidity<br><span style="color:#e8f0ec;font-weight:500;">{wd['humidity']}%</span></div>
+            <div style="font-size:0.72rem;color:#5a7a6a;" class="weather-stat">Wind<br><span style="color:#e8f0ec;font-weight:500;">{wd['wind']} m/s</span></div>
           </div>
         </div>""", unsafe_allow_html=True)
     elif wd and not wd.get("success"):
@@ -1248,8 +1302,8 @@ with st.sidebar:
         if advisory:
             st.markdown(f"""
             <div style="background:#2a2410;border:1px solid rgba(232,184,75,0.3);
-                        border-radius:10px;padding:10px 14px;margin:-4px 0 14px;font-size:0.75rem;
-                        line-height:1.5;color:#e8d9a8;">
+                        border-radius:10px;padding:10px 14px;margin:-4px 0 14px;
+                        line-height:1.5;color:#e8d9a8;" class="weather-advisory">
               {advisory}
             </div>""", unsafe_allow_html=True)
 
@@ -1273,12 +1327,12 @@ with st.sidebar:
         lkr_value = to_usd * rates["LKR"]
         st.markdown(f"""
         <div style="background:linear-gradient(135deg,#0c3446,#19352a);border:1px solid rgba(61,186,126,0.2);border-radius:10px;
-                    padding:10px 14px;font-size:0.85rem;">
-        <span style="color:#a8bfb3;">≈</span> <span style="color:#e8f0ec;font-weight:600;font-size:1.1rem;">LKR {lkr_value:,.0f}</span>
+                    padding:10px 14px;" class="currency-box">
+        <span style="color:#a8bfb3;">≈</span> <span style="color:#e8f0ec;font-weight:600;" class="currency-value">LKR {lkr_value:,.0f}</span>
         </div>""", unsafe_allow_html=True)
         as_of = rates.get("as_of")
         if as_of:
-            st.markdown(f'<span style="font-size:0.66rem;color:#5a7a6a;">Rate as of {as_of}</span>', unsafe_allow_html=True)
+            st.markdown(f'<span style="color:#5a7a6a;" class="currency-asof">Rate as of {as_of}</span>', unsafe_allow_html=True)
     else:
         st.caption(f"⚠️ Live rate unavailable — showing approximate (1 USD ≈ LKR {rates['LKR']:.0f}). Verify before travel.")
         to_usd = conv_amount if conv_currency == "USD" else conv_amount / rates.get(conv_currency, 1)
