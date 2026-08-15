@@ -324,57 +324,56 @@ header[data-testid="stHeader"] * {
    here — instead it's given a real background box, border and comfortable
    padding so it's easy to see and hit wherever Streamlit naturally
    places it, rather than assuming a fixed coordinate that may be wrong. */
+[data-testid="stHeader"] button,
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapseButton"],
 [data-testid="stExpandSidebarButton"],
 [data-testid*="ollapsedControl" i],
 [data-testid*="idebarCollapse" i],
 [data-testid*="xpandSidebar" i],
-button[aria-label="Open sidebar"],
-button[aria-label="Close sidebar"],
-button[aria-label="Collapse sidebar"],
-button[aria-label="Expand sidebar"] {
+button[aria-label*="sidebar" i] {
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   visibility:visible!important;
   opacity:1!important;
   z-index:9999999!important;
-  background:#1a3528!important;
-  border:1.5px solid rgba(61,186,126,0.55)!important;
-  border-radius:8px!important;
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  min-height:34px!important;
+  background:linear-gradient(135deg,#123a2c,#0c2b28)!important;
+  border:1.5px solid rgba(61,186,126,0.6)!important;
+  border-radius:50%!important;
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
   padding:0!important;
+  box-shadow:0 2px 10px rgba(0,0,0,0.35)!important;
   cursor:pointer!important;
+  transition:background 0.15s, border-color 0.15s, transform 0.15s!important;
 }
+[data-testid="stHeader"] button svg,
 [data-testid="collapsedControl"] svg,
 [data-testid="stSidebarCollapseButton"] svg,
 [data-testid="stExpandSidebarButton"] svg,
 [data-testid*="ollapsedControl" i] svg,
 [data-testid*="idebarCollapse" i] svg,
 [data-testid*="xpandSidebar" i] svg,
-button[aria-label="Open sidebar"] svg,
-button[aria-label="Close sidebar"] svg,
-button[aria-label="Collapse sidebar"] svg,
-button[aria-label="Expand sidebar"] svg {
+button[aria-label*="sidebar" i] svg {
   fill:#3dba7e!important;
   stroke:#3dba7e!important;
   color:#3dba7e!important;
-  width:19px!important;
-  height:19px!important;
+  width:16px!important;
+  height:16px!important;
   opacity:1!important;
   visibility:visible!important;
 }
+[data-testid="stHeader"] button:hover,
 [data-testid="collapsedControl"]:hover,
 [data-testid="stSidebarCollapseButton"]:hover,
 [data-testid="stExpandSidebarButton"]:hover,
-button[aria-label="Open sidebar"]:hover,
-button[aria-label="Close sidebar"]:hover {
-  background:#234b38!important;
+button[aria-label*="sidebar" i]:hover {
+  background:linear-gradient(135deg,#1a4a38,#123a2c)!important;
   border-color:#3dba7e!important;
+  transform:scale(1.06)!important;
 }
 /* RESPONSIVE — phone + tablet. Streamlit already stacks st.columns
    vertically below its own ~640px breakpoint, so the budget / arrival /
