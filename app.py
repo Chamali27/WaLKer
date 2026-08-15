@@ -955,8 +955,18 @@ button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial
     height: 20px !important;
 }
 
-/* » — expand control, shown while sidebar is collapsed */
-div[data-testid="collapsedControl"] {
+/* » — expand control, shown while sidebar is collapsed.
+   Different Streamlit versions expose this under different testids
+   ("collapsedControl" in older versions, "stSidebarCollapsedControl"
+   in newer ones renamed to match stSidebarCollapseButton) and it may
+   not literally be a <div> — so every variant is covered here, tag
+   name unrestricted. */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="collapsedControl"] button,
+[data-testid="stSidebarCollapsedControl"] button,
+button:has([data-testid="collapsedControl"]),
+button:has([data-testid="stSidebarCollapsedControl"]) {
     all: unset !important;
     display: flex !important;
     align-items: center !important;
@@ -980,18 +990,16 @@ div[data-testid="collapsedControl"] {
     left: 12px !important;
     z-index: 999999 !important;
 }
-div[data-testid="collapsedControl"] button {
-    all: unset !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-    cursor: pointer !important;
-}
-div[data-testid="collapsedControl"] svg,
-div[data-testid="collapsedControl"] span,
-div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
+[data-testid="collapsedControl"] svg,
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] [data-testid="stIconMaterial"],
+[data-testid="stSidebarCollapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] span,
+[data-testid="stSidebarCollapsedControl"] [data-testid="stIconMaterial"],
+button:has([data-testid="collapsedControl"]) svg,
+button:has([data-testid="collapsedControl"]) [data-testid="stIconMaterial"],
+button:has([data-testid="stSidebarCollapsedControl"]) svg,
+button:has([data-testid="stSidebarCollapsedControl"]) [data-testid="stIconMaterial"] {
     fill: #ffffff !important;
     stroke: #ffffff !important;
     color: #ffffff !important;
