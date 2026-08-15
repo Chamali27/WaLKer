@@ -274,10 +274,6 @@ header[data-testid="stHeader"]{
   background:transparent!important;
   z-index:999999!important;
   padding:8px 6px!important;
-  pointer-events:none!important;
-}
-header[data-testid="stHeader"] * {
-  pointer-events:auto!important;
 }
 [data-testid="stAppViewContainer"] > .main{ padding-top:0!important; }
 .block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; padding-top:0!important; }
@@ -311,70 +307,13 @@ header[data-testid="stHeader"] * {
 /* SIDEBAR */
 [data-testid="stSidebar"]{ background:linear-gradient(180deg,#0a2732 0%,#0c2b28 45%,#0e2119 100%)!important; border-right:1px solid rgba(255,255,255,0.08)!important; }
 [data-testid="stSidebar"] .block-container{ padding:1.2rem 1rem 2rem!important; }
-
-/* SIDEBAR OPEN/CLOSE TOGGLE — Streamlit has renamed the testid for this
-   button across versions (collapsedControl, stSidebarCollapseButton,
-   stExpandSidebarButton...), which is why earlier attempts styling one
-   specific testid silently stopped matching and the raw, low-contrast
-   default icon showed through instead. Layering every known testid PLUS
-   the button's aria-label (a much more stable hook, since "Open sidebar"
-   / "Close sidebar" are Streamlit's actual accessibility labels and
-   change far less often than internal testids) means this keeps working
-   even if the testid changes again. Deliberately not forcing position
-   here — instead it's given a real background box, border and comfortable
-   padding so it's easy to see and hit wherever Streamlit naturally
-   places it, rather than assuming a fixed coordinate that may be wrong. */
-[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapseButton"],
-[data-testid="stExpandSidebarButton"],
-[data-testid*="ollapsedControl" i],
-[data-testid*="idebarCollapse" i],
-[data-testid*="xpandSidebar" i],
-button[aria-label="Open sidebar"],
-button[aria-label="Close sidebar"],
-button[aria-label="Collapse sidebar"],
-button[aria-label="Expand sidebar"] {
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  visibility:visible!important;
-  opacity:1!important;
-  z-index:9999999!important;
-  background:#1a3528!important;
-  border:1.5px solid rgba(61,186,126,0.55)!important;
-  border-radius:8px!important;
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  min-height:34px!important;
-  padding:0!important;
-  cursor:pointer!important;
-}
-[data-testid="collapsedControl"] svg,
-[data-testid="stSidebarCollapseButton"] svg,
-[data-testid="stExpandSidebarButton"] svg,
-[data-testid*="ollapsedControl" i] svg,
-[data-testid*="idebarCollapse" i] svg,
-[data-testid*="xpandSidebar" i] svg,
-button[aria-label="Open sidebar"] svg,
-button[aria-label="Close sidebar"] svg,
-button[aria-label="Collapse sidebar"] svg,
-button[aria-label="Expand sidebar"] svg {
-  fill:#3dba7e!important;
-  stroke:#3dba7e!important;
-  color:#3dba7e!important;
-  width:19px!important;
-  height:19px!important;
-  opacity:1!important;
-  visibility:visible!important;
-}
-[data-testid="collapsedControl"]:hover,
-[data-testid="stSidebarCollapseButton"]:hover,
-[data-testid="stExpandSidebarButton"]:hover,
-button[aria-label="Open sidebar"]:hover,
-button[aria-label="Close sidebar"]:hover {
-  background:#234b38!important;
-  border-color:#3dba7e!important;
+[data-testid="collapsedControl"]{ display:flex!important; visibility:visible!important; opacity:1!important;
+  background:#1a3528!important; border:1px solid rgba(61,186,126,0.3)!important; border-left:none!important;
+  border-radius:0 8px 8px 0!important; position:fixed!important; top:50%!important; left:0!important;
+  z-index:9999!important; width:24px!important; height:48px!important; cursor:pointer!important; }
+[data-testid="collapsedControl"] svg {
+    fill: #3dba7e !important;
+    stroke: #3dba7e !important;
 }
 /* RESPONSIVE — phone + tablet. Streamlit already stacks st.columns
    vertically below its own ~640px breakpoint, so the budget / arrival /
@@ -978,6 +917,52 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   background:rgba(12,52,70,0.08) !important;
   color:#0c3446 !important;
   border:1px solid rgba(12,52,70,0.3) !important;
+}
+/* SIDEBAR COLLAPSE ARROW */
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 999999 !important;
+
+    width: 32px !important;
+    height: 52px !important;
+
+    background: #1a3528 !important;
+    border: 1px solid rgba(61,186,126,0.45) !important;
+    border-left: none !important;
+    border-radius: 0 9px 9px 0 !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Make the actual arrow visible */
+[data-testid="collapsedControl"] svg {
+    width: 22px !important;
+    height: 22px !important;
+    fill: #3dba7e !important;
+    stroke: #3dba7e !important;
+    color: #3dba7e !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* If Streamlit puts the icon inside a span */
+[data-testid="collapsedControl"] span {
+    color: #3dba7e !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Hover */
+[data-testid="collapsedControl"]:hover {
+    background: #234b38 !important;
+    border-color: #3dba7e !important;
 }
 
 /* ============================================================
