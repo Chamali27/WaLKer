@@ -1988,7 +1988,7 @@ with form_right, st.container(key="form_right_panel"):
                       background:#08202b;" />
           <div style="padding:14px 18px;">
             <div style="font-family:'Cambria',serif;font-size:1.15rem;font-weight:700;color:#ffffff;">
-              {picked['icon']} {picked['name']}
+              {picked['name']}
             </div>
             <div style="font-family:'Cambria',monospace;font-size:0.68rem;letter-spacing:1px;
                         text-transform:uppercase;color:#3dba7e;margin:4px 0 10px;">📍 {picked['where']}</div>
@@ -2033,7 +2033,7 @@ with form_right, st.container(key="form_right_panel"):
         <div style="border:2px dashed rgba(61,186,126,0.4);border-radius:12px;
                     background:linear-gradient(135deg,#0c3446,#19352a);padding:22px 18px;">
           <div style="font-family:'Cambria',serif;font-size:1.15rem;font-weight:700;color:#ffffff;">
-            {picked['icon']} {picked['name']}
+            {picked['name']}
           </div>
           <div style="font-family:'Cambria',monospace;font-size:0.68rem;letter-spacing:1px;
                       text-transform:uppercase;color:#3dba7e;margin:4px 0 10px;">📍 {picked['where']}</div>
