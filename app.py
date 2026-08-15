@@ -925,12 +925,9 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
    re-asserted at the end of this block so it keeps its original size.
    ============================================================ */
 
-/* "Plan Your Trip" / "What are your interests?" — bumped up so the
-   section heading reads bigger than the rest of the panel text. */
-.sec-title,
-.panel-label,
-.st-key-form_left_panel .panel-label,
-.st-key-form_right_panel .panel-label {
+/* "Plan Your Trip" — only this heading gets bumped up. "What are your
+   interests?" (.panel-label) stays at the standard panel size below. */
+.sec-title {
   font-size: 1.15rem !important;
 }
 
