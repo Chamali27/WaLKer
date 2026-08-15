@@ -145,7 +145,12 @@ def _call_llm(
                 return clean_text(response.choices[0].message.content), None
 
             except Exception as e:
-                print("🔥 GROQ ERROR:", repr(e))
+                print("🔥 GROQ ERROR:", repr(e), flush=True)
+                if STREAMLIT_OK:
+                    try:
+                        st.error(f"DEBUG RAW ERROR: {repr(e)}")
+                    except Exception:
+                        pass
                 reason, retryable = _classify_error(e)
                 last_reason = reason
                 if not retryable:
