@@ -474,6 +474,21 @@ details[open] .streamlit-expanderHeader{ border-radius:9px 9px 0 0!important; }
 [data-testid="stExpander"]{ background:linear-gradient(135deg,#0c3446,#19352a)!important; border:1px solid rgba(61,186,126,0.25)!important; border-radius:9px!important; }
 [data-testid="stExpander"] summary{ background:linear-gradient(135deg,#0c3446,#19352a)!important; color:#e8f0ec!important; }
 [data-testid="stExpander"] details{ background:linear-gradient(135deg,#0c3446,#19352a)!important; }
+/* Expander arrow icon (›/⌄) — rendered as an svg/icon-font glyph that
+   inherits its color from the summary text, but on some Streamlit
+   versions it ships with its own near-black default fill, making it
+   invisible against this dark card background. Forced to the same
+   green accent used elsewhere so it's always visible open or closed. */
+[data-testid="stExpander"] summary svg,
+[data-testid="stExpander"] summary [data-testid="stIconMaterial"],
+[data-testid="stExpanderToggleIcon"],
+[data-testid="stExpander"] summary span[data-testid="stIconMaterial"]{
+  fill:#3dba7e!important;
+  stroke:#3dba7e!important;
+  color:#3dba7e!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
 
 /* TABS (Trip Toolkit — Packing List / Safety & Scams / Phrases) — this had
    no custom styling at all before, so it fell back to Streamlit's default
@@ -1453,6 +1468,39 @@ span.chip-m, .chip-m {
 span.chip-g, .chip-g { color: #1a6b47 !important; }
 span.chip-y, .chip-y { color: #8a6008 !important; }
 span.sug-chip, .sug-chip { color: #1c6f96 !important; }
+
+/* MONO-LABEL / SUG-LABEL — same specificity bug as chip-m/chip-g above.
+   "📋 YOUR ITINERARY", "🗺️ MAP · N PLACES", and "QUICK QUESTIONS" all use
+   these classes and sit directly on the white page (not inside a dark
+   card), so losing the tie against ".stMarkdown span" left them rendering
+   as near-white text on white — effectively invisible. "span.mono-label"
+   matches at the same (0,1,1) specificity as the blanket rule and wins on
+   source order, same fix pattern as chip-m/chip-g/sug-chip. Default here
+   is the dark-on-white variant; the sidebar override right below restores
+   the original bright green since the sidebar background is dark. */
+span.mono-label, .mono-label { color: #1a6b47 !important; }
+span.sug-label, .sug-label { color: #2c4450 !important; }
+[data-testid="stSidebar"] span.mono-label,
+[data-testid="stSidebar"] .mono-label { color: #3dba7e !important; }
+
+/* META-CHIP ROW — "437 words · gpt-oss-120b · memory-aware · Evening
+   arrival" under the itinerary card, shrunk down since these are
+   secondary metadata, not primary content. Written as "span.chip.meta-
+   chip" for the same reason as the other span.* fixes above: needs to
+   beat the blanket ".stMarkdown span{font-size...}" rule from the
+   uniform font-size pass further up the file. */
+span.chip.meta-chip, .meta-chip {
+  font-size: 0.62rem !important;
+  padding: 2px 8px !important;
+}
+.meta-chip-row { gap: 4px !important; }
+
+/* QUICK-QUESTION CHIPS — same story as meta-chip above: the later
+   "uniform font-size pass" blanket rule bumps .sug-chip up to the same
+   0.85rem as regular body text, undoing its intended smaller pill size.
+   Restored here with the span+class specificity trick. */
+span.sug-chip, .sug-chip { font-size: 0.68rem !important; }
+span.sug-label, .sug-label { font-size: 0.54rem !important; }
 
 
 /* Arrival-time cards (Morning / Afternoon / Evening / Night) were
@@ -2572,7 +2620,7 @@ else:
         </div>""", unsafe_allow_html=True)
 
     # Itinerary + Map
-    res_left, res_right = st.columns([3, 2], gap="large")
+    res_left, res_right = st.columns([7, 3], gap="large")
 
     with res_left:
         st.markdown('<span class="mono-label">📋 Your Itinerary</span>', unsafe_allow_html=True)
@@ -2601,11 +2649,11 @@ else:
             unsafe_allow_html=True)
 
         arr_opt = ARRIVAL_OPTIONS.get(st.session_state.arrival_time, ARRIVAL_OPTIONS["morning"])
-        st.markdown(f"""<div class="chip-row" style="margin-top:10px;">
-          <span class="chip chip-g">{len(itinerary.split())} words</span>
-          <span class="chip chip-y">gpt-oss-120b</span>
-          <span class="chip chip-m">memory-aware</span>
-          <span class="chip chip-m">{arr_opt['label']} arrival</span>
+        st.markdown(f"""<div class="chip-row meta-chip-row" style="margin-top:10px;">
+          <span class="chip chip-g meta-chip">{len(itinerary.split())} words</span>
+          <span class="chip chip-y meta-chip">gpt-oss-120b</span>
+          <span class="chip chip-m meta-chip">memory-aware</span>
+          <span class="chip chip-m meta-chip">{arr_opt['label']} arrival</span>
         </div>""", unsafe_allow_html=True)
 
         dl_col1, dl_col2 = st.columns(2)
@@ -2738,7 +2786,7 @@ else:
                             html=f'<div style="font-family:Cambria,sans-serif;font-size:10px;font-weight:600;color:#e8f0ec;white-space:nowrap;margin-top:12px;text-shadow:0 1px 4px rgba(0,0,0,0.9);">{loc["name"]}</div>',
                             icon_size=(100,20), icon_anchor=(0,0)),
                     ).add_to(m)
-                st_folium(m, width=None, height=580, returned_objects=[])
+                st_folium(m, width=None, height=400, returned_objects=[])
             except ImportError:
                 for loc in locations:
                     st.markdown(f'<div class="hist-card">📍 <b style="color:#3dba7e;">{loc["name"]}</b></div>', unsafe_allow_html=True)
@@ -2896,15 +2944,26 @@ else:
         with btn_col:
             st.markdown("""
             <style>
-            .st-key-btn_send_chat button {
+            /* Chained 3x to beat the later "Hide default button styling"
+               reset (div.stButton > button), which has higher specificity
+               (type+class+type) than a single ".st-key-btn_send_chat
+               button" and was silently stripping this button's background/
+               border and forcing near-white text — invisible on the white
+               page behind the chat input row. */
+            .st-key-btn_send_chat.st-key-btn_send_chat.st-key-btn_send_chat button {
                 background: linear-gradient(135deg,#0c3446,#19352a) !important;
                 border: 1.5px solid rgba(61,186,126,0.4) !important;
                 border-radius: 10px !important;
-                color: #e8f0ec !important;
+                color: #3dba7e !important;
                 font-size: 1.1rem !important;
                 padding: 9px 10px !important;
                 width: 100% !important;
                 box-shadow: none !important;
+            }
+            .st-key-btn_send_chat.st-key-btn_send_chat.st-key-btn_send_chat button:hover {
+                background: linear-gradient(135deg,#123a4d,#1f4432) !important;
+                border-color: #3dba7e !important;
+                color: #ffffff !important;
             }
             </style>
             """, unsafe_allow_html=True)
