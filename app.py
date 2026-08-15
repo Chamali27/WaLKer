@@ -520,14 +520,10 @@ div[data-baseweb="tooltip"]{ background:#1a3528!important; }
 
   
 /* STREAMLIT'S OWN TOP TOOLBAR — Share / star / GitHub-edit / deploy icons.
-   IMPORTANT: only the action icons themselves are hidden here, never the
-   outer [data-testid="stToolbar"] container — that container also holds
-   the sidebar «/» control in some Streamlit versions, so hiding the whole
-   container previously took the sidebar arrow down with it. The container
-   is kept in the DOM but made fully transparent/see-through instead. */
-[data-testid="stToolbar"]{
-  background:transparent!important;
-}
+   Hidden entirely, back to the original request. The sidebar «/» arrow is
+   handled by its own separate rule further below (targets any button left
+   inside the header structurally), so hiding this doesn't affect it. */
+[data-testid="stToolbar"],
 [data-testid="stToolbarActions"],
 [data-testid="stStatusWidget"],
 [data-testid="stHeaderActionElements"],
