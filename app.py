@@ -2,6 +2,7 @@ import re
 import time
 import datetime
 import streamlit as st
+import streamlit.components.v1 as components
 import base64
 from pathlib import Path
 
@@ -30,6 +31,25 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# BFCACHE GUARD — clicking a link to an already-visited URL can make some
+# browsers restore the page instantly from the back/forward cache
+# (bfcache) instead of doing a real navigation: it replays the exact DOM
+# from the last visit, splash screen already gone, without this script
+# ever running again server-side. A manual refresh bypasses bfcache and
+# forces a real reload, which is why the splash only reappears then. This
+# listens for the browser's pageshow event and forces a genuine reload
+# whenever the page was served from bfcache, so app_booted (and the
+# splash it gates) resets and runs fresh on every real visit/link click.
+components.html("""
+<script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      window.parent.location.reload();
+    }
+  });
+</script>
+""", height=0)
 
 # BRAND ASSET — Sri Lanka flag icon used next to the "WaLKer" wordmark
 # (hero banner + sidebar logo). Loaded once and embedded as a base64 data
