@@ -164,6 +164,17 @@ st.markdown("""
   --text2:#b8ccc1;
   --muted:#759486;
 } 
+/* Tell mobile browsers (Android Chrome / WebView "auto dark theme for
+   web content" in particular) that this page already handles its own
+   light AND dark styling per element. Without this, some mobile
+   browsers apply their own heuristic re-colorer to text inside custom
+   div-based form controls (like the selectboxes below) and can repaint
+   correctly-set light text to a near-invisible dark shade — this is
+   why a dropdown can look fine on desktop Chrome but show blank/ghost
+   text on a phone even though the HTML/CSS is identical. */
+html, body, .stApp, [data-testid="stAppViewContainer"] {
+  color-scheme: light dark !important;
+}
 /* ============================================================
    FLUID SCALING PATCH (v2 — tightened ~10% to match target look)
    ============================================================ */
@@ -1323,14 +1334,32 @@ div[data-testid="stAlert"],
 /* MOBILE ARRIVAL-TIME CARDS — force a real 2-across grid (Morning /
    Afternoon on one row, Evening / Night on the next) instead of
    letting Streamlit's own mobile breakpoint stack all four into one
-   long vertical column. Same technique already used for the month
-   picker grid above. */
-@media (max-width: 768px) {
-  [class*="st-key-arr_row_"] [data-testid="column"] {
-    width: 50% !important;
-    flex: 0 0 50% !important;
-    min-width: 0 !important;
-  }
+   long vertical column. Applied unconditionally (not just inside a
+   media query) and with the class repeated for extra specificity,
+   since Streamlit's own internal column-stacking rule may use a
+   different breakpoint or otherwise out-specificity a plain
+   media-query-scoped rule targeting the same selector. Desktop is
+   unaffected — these were already rendering as 2 columns there. */
+[class*="st-key-arr_row_"][class*="st-key-arr_row_"] [data-testid="stHorizontalBlock"] {
+  flex-wrap: nowrap !important;
+}
+[class*="st-key-arr_row_"][class*="st-key-arr_row_"] [data-testid="column"] {
+  width: 50% !important;
+  max-width: 50% !important;
+  flex: 0 0 50% !important;
+  min-width: 0 !important;
+}
+
+/* MOBILE — belt-and-braces reinforcement for the three selectboxes in
+   the white left panel (Day-1 start, travel month, language). Some
+   mobile WebKit builds paint form-control glyphs using
+   -webkit-text-fill-color instead of color, so a plain `color` rule
+   can be silently ignored there even though it works on desktop. */
+.st-key-form_left_panel div[data-testid="stSelectbox"],
+.st-key-form_left_panel div[data-testid="stSelectbox"] * {
+  color: #f4faf7 !important;
+  -webkit-text-fill-color: #f4faf7 !important;
+  color-scheme: dark !important;
 }
 
 </style>
