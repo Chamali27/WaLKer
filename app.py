@@ -985,48 +985,49 @@ div[data-testid="collapsedControl"] [data-testid="stIconMaterial"] {
     height: 22px !important;
 }
 
-/* SIDEBAR'S OWN "CLOSE" TOGGLE (the « icon that sits at the top of the
-   sidebar while it's expanded) — this had NO custom styling at all
-   before, which is why it was hard to spot: it was rendering with
-   Streamlit's bare default button look, easy to miss against the dark
-   sidebar background. Styled to match the outside "open" circle above,
-   so both states use the same unmistakable green-circle look. Streamlit
-   has used a couple of different data-testids for this button across
-   versions, so every known one is covered here defensively — harmless
-   if a selector doesn't match anything in your version. */
+/* SIDEBAR COLLAPSE / EXPAND CONTROL — single source of truth for BOTH
+   states. Streamlit 1.38+ renamed this element's data-testid from the
+   old "collapsedControl" to "stSidebarCollapseButton" — and crucially,
+   it's the SAME element used for both the "close" arrow shown at the
+   top of the open sidebar AND the "open" arrow shown floating on the
+   page edge once collapsed; Streamlit just repositions it itself
+   depending on state. That's why the open-state circle worked but the
+   collapsed-state one didn't: the earlier rule only matched it when
+   nested under the sidebar header, which isn't true once collapsed.
+   This version targets stSidebarCollapseButton directly, with no
+   position/top/left overrides — Streamlit already places it correctly
+   in both states, we only force the visual (color/shape/size), so we
+   never fight its layout engine and both states get the same circle. */
 [data-testid="stSidebarCollapseButton"] button,
 [data-testid="stSidebarCollapseButton"] button:hover,
 [data-testid="stSidebarCollapseButton"] button:focus,
-[data-testid="stSidebarHeader"] button,
-[data-testid="stSidebarHeader"] button:hover,
-[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"],
-[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"]:hover {
+[data-testid="stSidebarCollapseButton"] button:active {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     background: #1a3528 !important;
     border: 2px solid #3dba7e !important;
     border-radius: 50% !important;
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
     padding: 0 !important;
     box-shadow: 0 3px 12px rgba(0,0,0,0.45), 0 0 0 4px rgba(61,186,126,0.14) !important;
     opacity: 1 !important;
     visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 999999 !important;
     transition: background 0.15s, border-color 0.15s, transform 0.15s !important;
 }
-[data-testid="stSidebarCollapseButton"] button:hover,
-[data-testid="stSidebarHeader"] button:hover,
-[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"]:hover {
+[data-testid="stSidebarCollapseButton"] button:hover {
     background: #234b38 !important;
     border-color: #52d896 !important;
     transform: scale(1.08) !important;
 }
 [data-testid="stSidebarCollapseButton"] svg,
-[data-testid="stSidebarHeader"] svg,
-[data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"] svg {
+[data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"] {
     fill: #3dba7e !important;
     stroke: #3dba7e !important;
     color: #3dba7e !important;
@@ -2660,4 +2661,3 @@ else:
             st.session_state.chat_messages = []
             st.session_state.chat_history  = []
             st.rerun()
-    
