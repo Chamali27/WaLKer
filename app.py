@@ -1027,25 +1027,30 @@ div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
 }
 
 /* MONTH PICKER ("What's Happening in Sri Lanka?") — segmented-control
-   look: one bordered, rounded strip containing all 12 months, buttons
-   flush against each other with thin dividers instead of 12 separate
-   floating pills. The wrap gets the rounded border + overflow:hidden so
-   its square-cornered children still read as one rounded shape; the two
-   row containers get gap:0 so the 6 buttons in each row touch. */
+   look: one bordered, rounded strip containing all 12 months. Instead of
+   giving each button its own border (which rendered as a slightly wavy,
+   uneven line due to subpixel mismatches between adjacent buttons), the
+   wrap's own background is set to the divider color and a 1px gap is
+   left between every cell — that gap reveals the wrap's background
+   underneath as a perfectly straight, uniform line everywhere, both
+   horizontally and vertically, with no per-button border needed. */
 .st-key-month_picker_wrap {
   border: 1.5px solid rgba(61,186,126,0.3) !important;
   border-radius: 12px !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg,#0c3446,#19352a) !important;
+  background: rgba(255,255,255,0.14) !important;
 }
 .st-key-month_picker_wrap [data-testid="stVerticalBlock"] {
-  gap: 0 !important;
+  gap: 1px !important;
 }
 [class*="st-key-month_row_"] [data-testid="stHorizontalBlock"] {
-  gap: 0 !important;
+  gap: 1px !important;
 }
 [class*="st-key-month_row_"] [data-testid="column"] {
   padding: 0 !important;
+}
+.st-key-month_picker_wrap .stButton {
+  margin: 0 !important;
 }
 .st-key-month_picker_wrap .stButton > button {
   height: 46px !important;
@@ -1856,15 +1861,19 @@ with form_right, st.container(key="form_right_panel"):
                 with col:
                     is_active = st.session_state.shs_month == mkey
                     sel = f".st-key-shsm_{mkey}" * 3
-                    border_r = "none" if is_last_col else "1px solid rgba(255,255,255,0.14)"
-                    border_b = "none" if is_last_row else "1px solid rgba(255,255,255,0.14)"
+                    # No per-button borders anymore — each cell paints a
+                    # solid background right up to its edge, and the 1px
+                    # gap between cells (set in CSS) reveals the wrap's own
+                    # background color underneath as the divider line. That
+                    # line is then guaranteed perfectly even everywhere,
+                    # unlike stacking individual button borders which
+                    # rendered with slight subpixel mismatches between
+                    # buttons and looked wavy.
                     st.markdown(f"""
                     <style>
                     {sel} button {{
-                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'transparent'} !important;
+                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'linear-gradient(135deg,#0c3446,#19352a)'} !important;
                         border: none !important;
-                        border-right: {border_r} !important;
-                        border-bottom: {border_b} !important;
                         border-radius: 0 !important;
                         color: {'#3dba7e' if is_active else '#ffffff'} !important;
                         font-weight: 700 !important;
@@ -1877,7 +1886,7 @@ with form_right, st.container(key="form_right_panel"):
                         font-family: 'Cambria', monospace !important;
                     }}
                     {sel} button:hover {{
-                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'rgba(61,186,126,0.12)'} !important;
+                        background: {'linear-gradient(135deg,#123a4d,#1f4432)' if is_active else 'linear-gradient(135deg,#123a4d,#1a3d38)'} !important;
                     }}
                     </style>
                     """, unsafe_allow_html=True)
