@@ -51,6 +51,30 @@ components.html("""
 </script>
 """, height=0)
 
+# COLOR-SCHEME META TAG — the `color-scheme: light` CSS property set further
+# below only ever lands inside <body> (st.markdown can't reach <head>), and
+# some browsers' forced/auto-dark content repainting (Chrome/Edge "Auto Dark
+# Theme for web content") honors the actual <meta name="color-scheme"> tag
+# more reliably than the CSS property alone. Without this, that heuristic
+# can still repaint explicitly-colored text to a near-invisible shade AFTER
+# our CSS applies — outside the normal cascade, so even inline !important
+# colors don't protect against it. Injected into the parent document's real
+# <head> via JS since components.html renders in its own iframe.
+components.html("""
+<script>
+  (function() {
+    var doc = window.parent.document;
+    if (!doc.querySelector('meta[name="color-scheme"]')) {
+      var meta = doc.createElement('meta');
+      meta.name = 'color-scheme';
+      meta.content = 'light';
+      doc.head.appendChild(meta);
+    }
+    doc.documentElement.style.colorScheme = 'light';
+  })();
+</script>
+""", height=0)
+
 # BRAND ASSET — Sri Lanka flag icon used next to the "WaLKer" wordmark
 # (hero banner + sidebar logo). Loaded once and embedded as a base64 data
 # URI so it renders inline via unsafe_allow_html without needing Streamlit's
@@ -164,16 +188,20 @@ st.markdown("""
   --text2:#b8ccc1;
   --muted:#759486;
 } 
-/* Tell mobile browsers (Android Chrome / WebView "auto dark theme for
-   web content" in particular) that this page already handles its own
-   light AND dark styling per element. Without this, some mobile
-   browsers apply their own heuristic re-colorer to text inside custom
-   div-based form controls (like the selectboxes below) and can repaint
-   correctly-set light text to a near-invisible dark shade — this is
-   why a dropdown can look fine on desktop Chrome but show blank/ghost
-   text on a phone even though the HTML/CSS is identical. */
+/* Tell browsers (desktop Chrome/Edge "Auto Dark Theme for web content" and
+   mobile Android WebView's dark-mode heuristic alike) that this page is
+   explicitly light-themed. Previously this was set to "light dark", which
+   actually tells the browser "I support both themes" — that's an invitation
+   for the browser's forced-dark repainting to kick in and recolor text
+   AFTER our CSS has already applied, as a post-render heuristic pass that
+   sits outside the normal CSS cascade. That's why explicitly-set colors
+   (even with !important) were still rendering as near-invisible washed-out
+   text in several places despite the CSS being completely correct — it
+   wasn't a specificity fight, it was the browser overriding the final
+   paint. Declaring "light" only tells the browser this page is
+   intentionally light and opts the whole app out of that repainting. */
 html, body, .stApp, [data-testid="stAppViewContainer"] {
-  color-scheme: light dark !important;
+  color-scheme: light !important;
 }
 /* ============================================================
    FLUID SCALING PATCH (v2 — tightened ~10% to match target look)
@@ -1368,6 +1396,17 @@ div[data-testid="stAlert"] *,
   border: 1px solid rgba(12,52,70,0.18) !important;
 }
 
+/* CHIP-G / CHIP-Y / SUG-CHIP — same story as chip-m above: these colors
+   (#3dba7e green, #e8b84b gold, #4fa8d1 blue) were tuned to pop against a
+   dark card, but chip-g/chip-y are also used directly on the white results
+   page (word-count badge, model badge, sustainability badges) and sug-chip
+   sits on the white chat panel — all genuinely low-contrast there even
+   without any browser dark-mode interference, so they get real darkened
+   variants everywhere outside a dark card. */
+.chip-g { color: #1a6b47 !important; }
+.chip-y { color: #8a6008 !important; }
+.sug-chip { color: #1c6f96 !important; }
+
 /* Arrival-time cards (Morning / Afternoon / Evening / Night) were
    previously force-fit into a 2-across grid on mobile, but a natural
    one-per-row stack (Streamlit's own default column-stacking on small
@@ -2464,7 +2503,7 @@ else:
         st.markdown(f"""
         <div style="background:rgba(61,186,126,0.08);border:1px solid rgba(61,186,126,0.25);
                     border-radius:9px;padding:10px 14px;margin-bottom:12px;font-size:0.78rem;">
-          <span style="color:#3dba7e;font-weight:600;">🌱 This trip includes sustainability-conscious stays:</span>
+          <span style="color:#1a6b47 !important;font-weight:600;">🌱 This trip includes sustainability-conscious stays:</span>
           <div class="chip-row" style="margin-top:6px;">{badge_chips}</div>
         </div>""", unsafe_allow_html=True)
 
@@ -2693,7 +2732,7 @@ else:
           <div style="font-size:2rem;margin-bottom:8px;">💬</div>
           <div style="font-size:0.82rem;color:#0c3446 !important;line-height:1.9;">
             Ask me anything about your trip!<br>
-            <span style="color:#3dba7e;">Add places · Get tips · Plan transport · Budget breakdown</span>
+            <span style="color:#1a6b47 !important;">Add places · Get tips · Plan transport · Budget breakdown</span>
           </div>
         </div>""", unsafe_allow_html=True)
     else:
