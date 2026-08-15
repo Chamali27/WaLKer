@@ -263,7 +263,7 @@ header{ visibility:visible!important; background:transparent!important; }
 .block-container{ padding:0 1.6rem 2rem!important; max-width:100%!important; }
 
 /* HERO */
-.hero-wrap{ width:100%; height:220px; position:relative; overflow:hidden; border-radius:0 0 24px 24px; margin-bottom:20px; }
+.hero-wrap{ width:100%; height:280px; position:relative; overflow:hidden; border-radius:0 0 24px 24px; margin-bottom:20px; }
 .hero-img{ width:100%; height:100%; object-fit:cover; display:block; }
 .hero-bg-layer{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:0;
   animation:heroKenBurns 24s ease-in-out infinite; will-change:opacity,transform; }
@@ -279,12 +279,12 @@ header{ visibility:visible!important; background:transparent!important; }
     linear-gradient(105deg,rgba(5,18,11,0.94) 0%,rgba(5,18,11,0.68) 50%,rgba(5,18,11,0.28) 100%),
     linear-gradient(0deg,rgba(5,18,11,0.5) 0%,rgba(5,18,11,0) 42%); }
 .hero-content{ position:absolute; inset:0; display:flex; align-items:center; padding:0 48px; gap:20px; }
-.hero-badge{ height:52px; width:auto; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+.hero-badge{ height:64px; width:auto; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
 .hero-text h1{ font-family:'Cambria',serif; font-size:3.2rem; font-weight:600; color:#fff; margin:0; text-shadow:0 2px 12px rgba(0,0,0,0.4); }
-.hero-logo{ height:88px; width:auto; display:block; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.45)); }
+.hero-logo{ height:108px; width:auto; display:block; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.45)); }
 .hero-text p{ font-family:'Cambria',monospace; font-size:0.62rem; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,0.6); margin:10px 0 0; }
 .hero-stats{ margin-left:auto; display:flex; gap:16px; }
-.hero-stat{ text-align:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.14); border-radius:9px; padding:10px 18px; }
+.hero-stat{ text-align:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.14); border-radius:9px; padding:12px 22px; }
 .hero-stat-num{ font-family:'Cambria',serif; font-size:1.6rem; font-weight:600; color:#3dba7e; line-height:1; }
 .hero-stat-lbl{ font-family:'Cambria',monospace; font-size:0.55rem; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:4px; }
 
@@ -1001,10 +1001,10 @@ div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] span {
 }
 
 /* ── Re-assert the hero's own sizes — untouched by the rules above ── */
-.hero-text h1  { font-size: clamp(1.35rem, 2.15vw, 2.25rem) !important; }
-.hero-text p   { font-size: clamp(0.4rem, 0.5vw, 0.46rem) !important; }
-.hero-stat-num { font-size: clamp(1rem, 1.15vw, 1.15rem) !important; }
-.hero-stat-lbl { font-size: clamp(0.4rem, 0.45vw, 0.43rem) !important; }
+.hero-text h1  { font-size: clamp(1.6rem, 2.6vw, 2.7rem) !important; }
+.hero-text p   { font-size: clamp(0.48rem, 0.6vw, 0.55rem) !important; }
+.hero-stat-num { font-size: clamp(1.2rem, 1.4vw, 1.4rem) !important; }
+.hero-stat-lbl { font-size: clamp(0.46rem, 0.52vw, 0.5rem) !important; }
 
 /* ── SIDEBAR — restore/shrink the sizes the blanket rule above wiped
    out. The blanket "p, div, span..." rule (with !important) overrode
