@@ -1247,6 +1247,92 @@ div[data-testid="stSelectbox"] svg {
     opacity: 1 !important;
 }
 
+/* ============================================================
+   CONTRAST SAFETY NET — placed last so it wins the cascade.
+   The page background is white (.stApp) but the global text-color
+   rule near the top forces almost everything to a light color meant
+   for dark cards. Anything left as plain/default Streamlit output
+   (no custom dark wrapper of its own) ends up light-on-white and is
+   effectively invisible. This block re-darkens exactly those spots
+   without touching anything that already has its own explicit dark
+   background (itinerary card, chat bubbles, sidebar, injected info
+   boxes with inline colors, etc.) — those keep working as before.
+   ============================================================ */
+
+/* Streamlit's own alert boxes (st.warning / st.error / st.info /
+   st.success). These render with Streamlit's default pale background
+   regardless of what's behind them, so the global light-text rule
+   made the text unreadable against that pale background wherever
+   they appear (missing-selection warning, AI failure error, refine
+   error, empty-map info, etc). Re-themed to match the app's dark
+   card look instead of leaving Streamlit's default styling. */
+div[data-testid="stAlert"],
+.stAlert {
+  border-radius: 10px !important;
+  font-family: 'Cambria', serif !important;
+}
+[data-testid="stNotificationContentWarning"] { background: linear-gradient(135deg,#2a2410,#1f1c0c) !important; border-left: 3px solid #e8b84b !important; border-radius: 10px !important; padding: 10px 14px !important; }
+[data-testid="stNotificationContentError"]   { background: linear-gradient(135deg,#3a1e1a,#2a1512) !important; border-left: 3px solid #e87060 !important; border-radius: 10px !important; padding: 10px 14px !important; }
+[data-testid="stNotificationContentInfo"]    { background: linear-gradient(135deg,#0c3446,#0a2732) !important; border-left: 3px solid #2f8bb8 !important; border-radius: 10px !important; padding: 10px 14px !important; }
+[data-testid="stNotificationContentSuccess"] { background: linear-gradient(135deg,#123a2a,#0c2b1f) !important; border-left: 3px solid #3dba7e !important; border-radius: 10px !important; padding: 10px 14px !important; }
+[data-testid="stNotificationContentWarning"] *,
+[data-testid="stNotificationContentError"] *,
+[data-testid="stNotificationContentInfo"] *,
+[data-testid="stNotificationContentSuccess"] *,
+.stAlert p {
+  color: #f0ede0 !important;
+}
+
+/* "Clear chat history" and "Show Demo Example Instead" buttons — both
+   sit directly on the white page with no keyed style of their own, so
+   they fell back to the transparent-background / light-text button
+   reset (meant for buttons on dark parents) and were invisible. */
+.st-key-btn_clr button,
+.st-key-btn_demo_fallback button {
+  background: linear-gradient(135deg,#0c3446,#19352a) !important;
+  border: 1.5px solid rgba(61,186,126,0.4) !important;
+  color: #e8f0ec !important;
+  border-radius: 10px !important;
+  width: auto !important;
+}
+.st-key-btn_clr button:hover,
+.st-key-btn_demo_fallback button:hover {
+  background: linear-gradient(135deg,#123a4d,#1f4432) !important;
+  border-color: #3dba7e !important;
+}
+
+/* Days-slider ticks/value inside the white "Plan Your Trip" panel —
+   these use var(--text2), a light grey-green meant for dark cards,
+   which washes out on the white panel background. */
+.st-key-form_left_panel div[data-testid="stSlider"] p,
+.st-key-form_left_panel div[data-testid="stTickBar"],
+.st-key-form_left_panel div[data-testid="stTickBarMin"],
+.st-key-form_left_panel div[data-testid="stTickBarMax"] {
+  color: #0c3446 !important;
+}
+
+/* "memory-aware" / arrival-time tag chip — only used once, directly
+   under the generated itinerary on the white page. Its default
+   near-transparent background + light grey text was unreadable there. */
+.chip-m {
+  background: rgba(12,52,70,0.06) !important;
+  color: #4a6572 !important;
+  border: 1px solid rgba(12,52,70,0.18) !important;
+}
+
+/* MOBILE ARRIVAL-TIME CARDS — force a real 2-across grid (Morning /
+   Afternoon on one row, Evening / Night on the next) instead of
+   letting Streamlit's own mobile breakpoint stack all four into one
+   long vertical column. Same technique already used for the month
+   picker grid above. */
+@media (max-width: 768px) {
+  [class*="st-key-arr_row_"] [data-testid="column"] {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    min-width: 0 !important;
+  }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -2158,7 +2244,11 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
         # AI writes the itinerary, instead of a blank spinner for several
         # seconds followed by a wall of text all at once. st.write_stream
         # both renders the chunks and returns the concatenated full text.
-        st.markdown("🌴 **Planning your perfect Sri Lanka trip...**")
+        st.markdown(
+            '<div style="color:#0c3446;font-weight:600;font-size:1rem;">'
+            '🌴 Planning your perfect Sri Lanka trip...</div>',
+            unsafe_allow_html=True,
+        )
         stream_box = st.empty()
         with stream_box.container():
             itinerary = st.write_stream(
@@ -2205,7 +2295,11 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
 # live demo/judging session never dead-ends on a spinner or error screen.
 # Loads a pre-written sample itinerary with zero network calls.
 if st.session_state.get("show_demo_fallback"):
-    st.caption("AI service unavailable right now — you can load a sample itinerary to keep the demo moving.")
+    st.markdown(
+        '<div style="color:#5a6b63;font-size:0.82rem;">AI service unavailable right now — '
+        'you can load a sample itinerary to keep the demo moving.</div>',
+        unsafe_allow_html=True,
+    )
     if st.button("🎬 Show Demo Example Instead", key="btn_demo_fallback", use_container_width=True):
         itinerary, goal_eval = get_sample_itinerary()
         st.session_state.itinerary          = itinerary
@@ -2367,7 +2461,11 @@ else:
                 st.download_button("📄  Download (.pdf)", data=pdf_bytes,
                     file_name="srilanka_itinerary.pdf", mime="application/pdf", use_container_width=True)
             except Exception:
-                st.caption("PDF export needs the `fpdf2` package (pip install fpdf2).")
+                st.markdown(
+                    '<div style="color:#5a6b63;font-size:0.82rem;">PDF export needs the '
+                    '<code>fpdf2</code> package (pip install fpdf2).</div>',
+                    unsafe_allow_html=True,
+                )
 
         whatsapp_summary = (
             f"My Sri Lanka trip plan via WaLKer 🌴\n"
@@ -2487,7 +2585,10 @@ else:
             except ImportError:
                 for loc in locations:
                     st.markdown(f'<div class="hist-card">📍 <b style="color:#3dba7e;">{loc["name"]}</b></div>', unsafe_allow_html=True)
-                st.caption("pip install folium streamlit-folium")
+                st.markdown(
+                    '<div style="color:#5a6b63;font-size:0.82rem;">pip install folium streamlit-folium</div>',
+                    unsafe_allow_html=True,
+                )
 
     st.markdown('<hr class="divider">', unsafe_allow_html=True)
 
