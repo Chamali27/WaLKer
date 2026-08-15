@@ -955,15 +955,11 @@ button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial
 
 /* » — expand control, shown while sidebar is collapsed.
    Streamlit has renamed the internal testid for this control across
-   versions AND in this particular version it renders as plain "»" TEXT
-   (not an svg/span icon), so neither testid- nor icon-based selectors
-   were reliably catching it. New approach: every OTHER button inside
-   the header is already hidden above (stToolbarActions, stStatusWidget,
-   stHeaderActionElements, stDecoration) — so whatever button is left
-   inside header[data-testid="stHeader"] must be the sidebar toggle,
-   caught here structurally instead of by name. Old selectors kept too,
-   as a belt-and-braces fallback for versions where they do match. */
-header[data-testid="stHeader"] button,
+   versions (collapsedControl -> stSidebarCollapsedControl and others),
+   so testid-based matching keeps breaking. aria-label is far more
+   stable across versions — Streamlit sets aria-label="Open sidebar"
+   on this exact button regardless of internal testid churn. Testid
+   selectors are kept too as a belt-and-braces fallback. */
 button[aria-label="Open sidebar"],
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapsedControl"],
@@ -993,11 +989,7 @@ button:has([data-testid="stSidebarCollapsedControl"]) {
     top: 16px !important;
     left: 12px !important;
     z-index: 999999 !important;
-    color: #ffffff !important;
-    font-size: 18px !important;
-    line-height: 1 !important;
 }
-header[data-testid="stHeader"] button *,
 button[aria-label="Open sidebar"] svg,
 button[aria-label="Open sidebar"] span,
 button[aria-label="Open sidebar"] [data-testid="stIconMaterial"],
