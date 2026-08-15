@@ -925,8 +925,8 @@ button:has([data-testid="stSidebarCollapseButton"]) {
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-    background: #ffffff !important;
-    border: 2px solid #ffffff !important;
+    background: #0c2b28 !important;
+    border: 2px solid #3dba7e !important;
     border-radius: 50% !important;
     width: 42px !important;
     height: 42px !important;
@@ -946,9 +946,9 @@ button:has([data-testid="stSidebarCollapseButton"]) {
 [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
 button:has([data-testid="stSidebarCollapseButton"]) svg,
 button:has([data-testid="stSidebarCollapseButton"]) [data-testid="stIconMaterial"] {
-    fill: #000000 !important;
-    stroke: #000000 !important;
-    color: #000000 !important;
+    fill: #3dba7e !important;
+    stroke: #3dba7e !important;
+    color: #3dba7e !important;
     opacity: 1 !important;
     visibility: visible !important;
     width: 20px !important;
