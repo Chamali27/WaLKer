@@ -938,6 +938,16 @@ div[data-baseweb="popover"] li[aria-selected="true"] {
   font-size: 0.6rem !important;
 }
 
+/* .panel-label ("What are your interests?", "How many days?", "Your
+   Budget?", etc.) explicitly pinned back to the standard 0.85rem body
+   size. It has its own class rule earlier in the stylesheet
+   (clamp(0.82rem, 1.08vw, 0.94rem)) which, being a class selector, beats
+   the plain "span" tag selector below regardless of source order — so it
+   needs this same-specificity override to actually take effect. */
+.panel-label {
+  font-size: 0.85rem !important;
+}
+
 /* Everything else: body copy, form labels, buttons, cards, chat, chips */
 .chip, .ai-box, .arrival-advice, .hist-card, .status-item,
 .bubble-user, .bubble-agent, .bubble-user-meta, .bubble-agent-meta,
