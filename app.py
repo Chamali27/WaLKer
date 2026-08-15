@@ -1376,6 +1376,32 @@ div[data-testid="stAlert"] *,
   color: #2e2008 !important;
   font-weight: 600 !important;
 }
+/* "Planning your trip..." loading box — same treatment as demo-fallback-box
+   above. A bare inline style="color:...!important" was NOT reliably
+   surviving on this specific element even though it's byte-identical in
+   pattern to the demo-fallback-box that DID get fixed once it also had a
+   real CSS class backing it — moved the color declaration into the
+   stylesheet via a class instead of leaving it solely inline. */
+.planning-trip-box,
+.planning-trip-box * {
+  color: #0c3446 !important;
+  font-weight: 600 !important;
+}
+/* Sustainability box header + chat empty-state text — same class-based
+   fix as planning-trip-box / demo-fallback-box above, replacing bare
+   inline style="...!important" (unreliable here) with real classes. */
+span.sustain-header, .sustain-header {
+  color: #1a6b47 !important;
+  font-weight: 600 !important;
+}
+div.chat-empty-text, .chat-empty-text {
+  font-size: 0.82rem !important;
+  color: #0c3446 !important;
+  line-height: 1.9 !important;
+}
+span.chat-empty-subtext, .chat-empty-subtext {
+  color: #1a6b47 !important;
+}
 
 /* Days-slider ticks/value inside the white "Plan Your Trip" panel —
    these use var(--text2), a light grey-green meant for dark cards,
@@ -1389,23 +1415,31 @@ div[data-testid="stAlert"] *,
 
 /* "memory-aware" / arrival-time tag chip — only used once, directly
    under the generated itinerary on the white page. Its default
-   near-transparent background + light grey text was unreadable there. */
-.chip-m {
+   near-transparent background + light grey text was unreadable there.
+   NOTE: selectors below are written as "span.chip-m" (element+class)
+   rather than plain ".chip-m" (class only) — the early blanket rule
+   ".stMarkdown span { color:var(--text)!important }" has specificity
+   (0,1,1), which actually BEATS a bare ".chip-m" at (0,1,0) despite both
+   being !important, since ties are broken by specificity, not just
+   !important vs not. "span.chip-m" matches at (0,1,1), tying that blanket
+   rule, and wins on source order since it's defined later. */
+span.chip-m, .chip-m {
   background: rgba(12,52,70,0.06) !important;
   color: #4a6572 !important;
   border: 1px solid rgba(12,52,70,0.18) !important;
 }
 
-/* CHIP-G / CHIP-Y / SUG-CHIP — same story as chip-m above: these colors
-   (#3dba7e green, #e8b84b gold, #4fa8d1 blue) were tuned to pop against a
-   dark card, but chip-g/chip-y are also used directly on the white results
-   page (word-count badge, model badge, sustainability badges) and sug-chip
-   sits on the white chat panel — all genuinely low-contrast there even
-   without any browser dark-mode interference, so they get real darkened
-   variants everywhere outside a dark card. */
-.chip-g { color: #1a6b47 !important; }
-.chip-y { color: #8a6008 !important; }
-.sug-chip { color: #1c6f96 !important; }
+/* CHIP-G / CHIP-Y / SUG-CHIP — same specificity fix as chip-m above.
+   Colors (#3dba7e green, #e8b84b gold, #4fa8d1 blue) were tuned to pop
+   against a dark card, but chip-g/chip-y are also used directly on the
+   white results page (word-count badge, model badge, sustainability
+   badges) and sug-chip sits on the white chat panel — genuinely
+   low-contrast there, and previously losing the specificity tie against
+   ".stMarkdown span" so the darkened color never actually painted. */
+span.chip-g, .chip-g { color: #1a6b47 !important; }
+span.chip-y, .chip-y { color: #8a6008 !important; }
+span.sug-chip, .sug-chip { color: #1c6f96 !important; }
+
 
 /* Arrival-time cards (Morning / Afternoon / Evening / Night) were
    previously force-fit into a 2-across grid on mobile, but a natural
@@ -2349,9 +2383,9 @@ if st.button("Generate My Itinerary", use_container_width=True, key="btn_generat
         # seconds followed by a wall of text all at once. st.write_stream
         # both renders the chunks and returns the concatenated full text.
         st.markdown(
-            '<div style="background:#eef6f1;border:1px solid rgba(61,186,126,0.3);'
+            '<div class="planning-trip-box" style="background:#eef6f1;border:1px solid rgba(61,186,126,0.3);'
             'border-left:3px solid #3dba7e;border-radius:9px;padding:10px 14px;'
-            'color:#0c3446 !important;font-weight:600;font-size:1rem;margin-bottom:8px;">'
+            'font-weight:600;font-size:1rem;margin-bottom:8px;">'
             '🌴 Planning your perfect Sri Lanka trip...</div>',
             unsafe_allow_html=True,
         )
@@ -2503,7 +2537,7 @@ else:
         st.markdown(f"""
         <div style="background:rgba(61,186,126,0.08);border:1px solid rgba(61,186,126,0.25);
                     border-radius:9px;padding:10px 14px;margin-bottom:12px;font-size:0.78rem;">
-          <span style="color:#1a6b47 !important;font-weight:600;">🌱 This trip includes sustainability-conscious stays:</span>
+          <span class="sustain-header">🌱 This trip includes sustainability-conscious stays:</span>
           <div class="chip-row" style="margin-top:6px;">{badge_chips}</div>
         </div>""", unsafe_allow_html=True)
 
@@ -2730,9 +2764,9 @@ else:
         st.markdown(f"""
         <div style="{chat_container_style}text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;">
           <div style="font-size:2rem;margin-bottom:8px;">💬</div>
-          <div style="font-size:0.82rem;color:#0c3446 !important;line-height:1.9;">
+          <div class="chat-empty-text">
             Ask me anything about your trip!<br>
-            <span style="color:#1a6b47 !important;">Add places · Get tips · Plan transport · Budget breakdown</span>
+            <span class="chat-empty-subtext">Add places · Get tips · Plan transport · Budget breakdown</span>
           </div>
         </div>""", unsafe_allow_html=True)
     else:
