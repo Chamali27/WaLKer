@@ -34,7 +34,8 @@ def _get_secret(key: str, fallback: str = "") -> str:
 
 GROQ_API_KEY    = _get_secret("GROQ_API_KEY")
 WEATHER_API_KEY = _get_secret("WEATHER_API_KEY")
-LLM_MODEL       = "llama-3.1-8b-instant"
+LLM_MODEL = "openai/gpt-oss-20b"
+
 # Used only if LLM_MODEL fails with a transient error after retries — a
 # different, independently-hosted model so a single model outage (or that
 # model specifically being rate-limited) doesn't take the whole demo down.
